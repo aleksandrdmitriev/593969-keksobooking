@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Дмитриев](https://up.htmlacademy.ru/javascript/14/user/593969).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Мисюрин](https://up.htmlacademy.ru/javascript/14/user/538267).
 
 ---
 
