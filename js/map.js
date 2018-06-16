@@ -17,6 +17,8 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 20;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
 var getRandomArrayItem = function (array) {
 
@@ -79,4 +81,23 @@ var createMockData = function () {
 
   return mockDataArray;
 };
-createMockData();
+
+var createPins = function (dataArray) {
+  var pinListElement = document.querySelector('.map__pins');
+  var pinTemplate = document.querySelector('template')
+  .content
+  .querySelector('.map__pin');
+
+  var fragment = document.createDocumentFragment();
+  for (var i = 1; i < dataArray.length; i++) {
+    var pinElement = pinTemplate.cloneNode(true);
+    pinElement.setAttribute('style', 'left: ' + (dataArray[i].location.x - PIN_WIDTH / 2) + 'px; top: ' + (dataArray[i].location.y - PIN_HEIGHT) + 'px;');
+    var pinImage = pinElement.firstElementChild;
+    pinImage.src = dataArray[i].author.avatar;
+    pinImage.alt = dataArray[i].offer.title;
+    fragment.appendChild(pinElement);
+  }
+  pinListElement.appendChild(fragment);
+};
+
+createPins(createMockData());
