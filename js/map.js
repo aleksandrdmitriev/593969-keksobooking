@@ -105,15 +105,15 @@ var createPins = function (dataArray) {
 createPins(createMockData());
 
 var getHousingType = function (arrayItem) {
-  if (arrayItem == 'palace') {
+  if (arrayItem === 'palace') {
 
     return 'Дворец';
 
-  } else if (arrayItem == 'flat') {
+  } else if (arrayItem === 'flat') {
 
     return 'Квартира';
 
-  } else if (arrayItem == 'bungalo') {
+  } else if (arrayItem === 'bungalo') {
 
     return 'Бунгало';
 
@@ -156,7 +156,7 @@ var createAdvert = function (dataArray) {
   advertElement.querySelector('.popup__description').textContent = dataArray[1].offer.description;
 
   var photosElement = advertElement.querySelector('.popup__photos');
-  for (var i = 0; i < dataArray[1].offer.photos.length; i++) {
+  for (i = 0; i < dataArray[1].offer.photos.length; i++) {
     var newPhotoElement = photosElement.querySelector('.popup__photo').cloneNode(true);
     newPhotoElement.src = dataArray[1].offer.photos[i];
     photosElement.appendChild(newPhotoElement);
