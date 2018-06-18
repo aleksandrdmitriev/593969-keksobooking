@@ -84,6 +84,8 @@ var createMockData = function () {
   return mockDataArray;
 };
 
+var mockData = createMockData();
+
 var createPins = function (dataArray) {
   var pinListElement = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template')
@@ -104,7 +106,7 @@ var createPins = function (dataArray) {
   pinListElement.appendChild(fragment);
 };
 
-createPins(createMockData());
+createPins(mockData);
 
 var getHousingType = function (arrayItem) {
   switch (arrayItem) {
@@ -169,4 +171,4 @@ var createAdvert = function (dataArray) {
   advertParentElement.insertBefore(advertElement, advertNextElement);
 };
 
-createAdvert(createMockData());
+createAdvert(mockData);
