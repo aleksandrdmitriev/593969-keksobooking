@@ -53,7 +53,7 @@ var createMockData = function () {
     var y = getRandomInt(Y_MIN, Y_MAX);
     var featuresNewArray = shuffleArray(FEATURES_ARRAY);
     var randomItems = getRandomItems(FEATURES_ARRAY.length);
-    mockDataArray[i] = {
+    var mockDataObject = {
       author: {
         avatar: 'img/avatars/user0' + [i] + '.png'
       },
@@ -77,10 +77,14 @@ var createMockData = function () {
         y: y,
       }
     };
+    mockDataArray.push(mockDataObject);
   }
+
 
   return mockDataArray;
 };
+
+console.log(createMockData());
 
 var createPins = function (dataArray) {
   var pinListElement = document.querySelector('.map__pins');
@@ -131,13 +135,13 @@ var createAdvert = function (dataArray) {
 
   var advertElement = advertTemplate.cloneNode(true);
 
-  advertElement.querySelector('.popup__avatar').src = dataArray[1].author.avatar;
-  advertElement.querySelector('.popup__title').textContent = dataArray[1].offer.title;
-  advertElement.querySelector('.popup__text--address').textContent = dataArray[1].offer.address;
-  advertElement.querySelector('.popup__text--price').textContent = dataArray[1].offer.price + '₽/ночь';
-  advertElement.querySelector('.popup__type').textContent = getHousingType(dataArray[1].offer.type);
-  advertElement.querySelector('.popup__text--capacity').textContent = dataArray[1].offer.rooms + ' комнаты для ' + dataArray[1].offer.guests + ' гостей';
-  advertElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + dataArray[1].offer.checkin + ', выезд до ' + dataArray[1].offer.checkout;
+  advertElement.querySelector('.popup__avatar').src = dataArray[0].author.avatar;
+  advertElement.querySelector('.popup__title').textContent = dataArray[0].offer.title;
+  advertElement.querySelector('.popup__text--address').textContent = dataArray[0].offer.address;
+  advertElement.querySelector('.popup__text--price').textContent = dataArray[0].offer.price + '₽/ночь';
+  advertElement.querySelector('.popup__type').textContent = getHousingType(dataArray[0].offer.type);
+  advertElement.querySelector('.popup__text--capacity').textContent = dataArray[0].offer.rooms + ' комнаты для ' + dataArray[1].offer.guests + ' гостей';
+  advertElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + dataArray[0].offer.checkin + ', выезд до ' + dataArray[1].offer.checkout;
   advertElement.querySelector('.popup__features');
 
   var featuresElement = advertElement.querySelector('.popup__features');
@@ -146,19 +150,19 @@ var createAdvert = function (dataArray) {
   }
 
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < dataArray[1].offer.features.length; i++) {
+  for (var i = 0; i < dataArray[0].offer.features.length; i++) {
     var newFeatureElement = document.createElement('li');
-    newFeatureElement.className = 'popup__feature popup__feature--' + dataArray[1].offer.features[i];
+    newFeatureElement.className = 'popup__feature popup__feature--' + dataArray[0].offer.features[i];
     fragment.appendChild(newFeatureElement);
   }
   featuresElement.appendChild(fragment);
 
-  advertElement.querySelector('.popup__description').textContent = dataArray[1].offer.description;
+  advertElement.querySelector('.popup__description').textContent = dataArray[0].offer.description;
 
   var photosElement = advertElement.querySelector('.popup__photos');
-  for (i = 0; i < dataArray[1].offer.photos.length; i++) {
+  for (i = 0; i < dataArray[0].offer.photos.length; i++) {
     var newPhotoElement = photosElement.querySelector('.popup__photo').cloneNode(true);
-    newPhotoElement.src = dataArray[1].offer.photos[i];
+    newPhotoElement.src = dataArray[0].offer.photos[i];
     photosElement.appendChild(newPhotoElement);
   }
   photosElement.removeChild(photosElement.querySelector('.popup__photo'));
