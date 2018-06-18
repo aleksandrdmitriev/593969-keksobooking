@@ -84,8 +84,6 @@ var createMockData = function () {
   return mockDataArray;
 };
 
-console.log(createMockData());
-
 var createPins = function (dataArray) {
   var pinListElement = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template')
@@ -109,21 +107,22 @@ var createPins = function (dataArray) {
 createPins(createMockData());
 
 var getHousingType = function (arrayItem) {
-  if (arrayItem === 'palace') {
+  switch (arrayItem) {
+    case 'palace':
 
-    return 'Дворец';
+      return 'Дворец';
 
-  } else if (arrayItem === 'flat') {
+    case 'flat':
 
-    return 'Квартира';
+      return 'Квартира';
 
-  } else if (arrayItem === 'bungalo') {
+    case 'bungalo':
 
-    return 'Бунгало';
+      return 'Бунгало';
 
-  } else {
+    default:
 
-    return 'Дом';
+      return 'Дом';
   }
 };
 
