@@ -172,3 +172,20 @@ var createAdvert = function (dataArray) {
 };
 
 createAdvert(mockData);
+
+var formDisable = function () {
+  document.getElementById('housing-type').setAttribute('disabled', 'disabled');
+  document.getElementById('housing-price').setAttribute('disabled', 'disabled');
+  document.getElementById('housing-rooms').setAttribute('disabled', 'disabled');
+  document.getElementById('housing-guests').setAttribute('disabled', 'disabled');
+  document.getElementById('housing-features').setAttribute('disabled', 'disabled');
+
+  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+
+  var elements = document.querySelectorAll('.ad-form__element');
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+formDisable();
