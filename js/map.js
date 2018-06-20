@@ -173,19 +173,47 @@ var createAdvert = function (dataArray) {
 
 createAdvert(mockData);
 
-var formDisable = function () {
-  document.getElementById('housing-type').setAttribute('disabled', 'disabled');
-  document.getElementById('housing-price').setAttribute('disabled', 'disabled');
-  document.getElementById('housing-rooms').setAttribute('disabled', 'disabled');
-  document.getElementById('housing-guests').setAttribute('disabled', 'disabled');
-  document.getElementById('housing-features').setAttribute('disabled', 'disabled');
+var enableFields = false;
 
-  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+var formDisable = function (enableFlag) {
+  if (enableFlag) {
+    document.getElementById('housing-type').removeAttribute('disabled', 'disabled');
+    document.getElementById('housing-price').removeAttribute('disabled', 'disabled');
+    document.getElementById('housing-rooms').removeAttribute('disabled', 'disabled');
+    document.getElementById('housing-guests').removeAttribute('disabled', 'disabled');
+    document.getElementById('housing-features').removeAttribute('disabled', 'disabled');
 
-  var elements = document.querySelectorAll('.ad-form__element');
-  for (var i = 0; i < elements.length; i++) {
-    elements[i].setAttribute('disabled', 'disabled');
+    document.querySelector('.ad-form-header').removeAttribute('disabled', 'disabled');
+
+    var elements = document.querySelectorAll('.ad-form__element');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].removeAttribute('disabled', 'disabled');
+    }
+
+    var map = document.querySelector('.map');
+    map.classList.remove('map--faded');
+
+
+  } else {
+    document.getElementById('housing-type').setAttribute('disabled', 'disabled');
+    document.getElementById('housing-price').setAttribute('disabled', 'disabled');
+    document.getElementById('housing-rooms').setAttribute('disabled', 'disabled');
+    document.getElementById('housing-guests').setAttribute('disabled', 'disabled');
+    document.getElementById('housing-features').setAttribute('disabled', 'disabled');
+
+    document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+
+    elements = document.querySelectorAll('.ad-form__element');
+    for (var j = 0; j < elements.length; j++) {
+      elements[j].setAttribute('disabled', 'disabled');
+    }
   }
 };
 
-formDisable();
+formDisable(enableFields);
+
+var mainPin = document.querySelector('.map__pin--main');
+mainPin.addEventListener('mouseup', function () {
+  enableFields = true;
+  formDisable('enableFields');
+});
