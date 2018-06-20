@@ -106,7 +106,7 @@ var createPins = function (dataArray) {
   pinListElement.appendChild(fragment);
 };
 
-createPins(mockData);
+// createPins(mockData);
 
 var getHousingType = function (arrayItem) {
   switch (arrayItem) {
@@ -171,7 +171,7 @@ var createAdvert = function (dataArray) {
   advertParentElement.insertBefore(advertElement, advertNextElement);
 };
 
-createAdvert(mockData);
+// createAdvert(mockData);
 
 var enableFields = false;
 
@@ -192,8 +192,12 @@ var formDisable = function (enableFlag) {
 
     var map = document.querySelector('.map');
     map.classList.remove('map--faded');
+
     var adForm = document.querySelector('.ad-form');
     adForm.classList.remove('ad-form--disabled');
+
+    createPins(mockData);
+    createAdvert(mockData);
 
   } else {
     document.getElementById('housing-type').setAttribute('disabled', 'disabled');
