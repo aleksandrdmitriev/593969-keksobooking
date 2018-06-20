@@ -192,7 +192,8 @@ var formDisable = function (enableFlag) {
 
     var map = document.querySelector('.map');
     map.classList.remove('map--faded');
-
+    var adForm = document.querySelector('.ad-form');
+    adForm.classList.remove('ad-form--disabled');
 
   } else {
     document.getElementById('housing-type').setAttribute('disabled', 'disabled');
