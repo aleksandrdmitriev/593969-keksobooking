@@ -194,6 +194,8 @@ var appActivate = function () {
   var adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
+  document.querySelector('#address').value = PIN_X_INIT + ', ' + PIN_Y_INIT;
+
   createPins(mockData);
 };
 // createAdvert(mockData);
