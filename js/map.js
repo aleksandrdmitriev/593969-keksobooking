@@ -216,9 +216,9 @@ var appDeactivate = function () {
 appDeactivate();
 
 var mainPin = document.querySelector('.map__pin--main');
-var listener = function () {
+var mouseupHandler = function () {
   appActivate();
-  mainPin.removeEventListener('mouseup', listener, false);
+  mainPin.removeEventListener('mouseup', mouseupHandler, false);
 };
-mainPin.addEventListener('mouseup', listener, false);
+mainPin.addEventListener('mouseup', mouseupHandler, false);
 
