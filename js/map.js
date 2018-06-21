@@ -7,6 +7,7 @@ var CHECKIN_ARRAY = ['12:00', '13:00', '14:00'];
 var CHECKOUT_ARRAY = ['12:00', '13:00', '14:00'];
 var FEATURES_ARRAY = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_ARRAY = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var FILTER_ARRAY = ['#housing-type', '#housing-price', '#housing-rooms', '#housing-guests', '#housing-features'];
 var X_MIN = 300;
 var X_MAX = 900;
 var Y_MIN = 130;
@@ -19,6 +20,8 @@ var GUESTS_MIN = 1;
 var GUESTS_MAX = 20;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var PIN_X_INIT = 603;
+var PIN_Y_INIT = 408;
 
 var getRandomArrayItem = function (array) {
 
@@ -173,52 +176,47 @@ var createAdvert = function (dataArray) {
 
 // createAdvert(mockData);
 
-var enableFields = false;
+var appActivate = function () {
+  for (var k = 0; k < FILTER_ARRAY.length; k++) {
+    document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
+  }
 
-var formDisable = function (enableFlag) {
-  if (enableFlag) {
-    document.getElementById('housing-type').removeAttribute('disabled', 'disabled');
-    document.getElementById('housing-price').removeAttribute('disabled', 'disabled');
-    document.getElementById('housing-rooms').removeAttribute('disabled', 'disabled');
-    document.getElementById('housing-guests').removeAttribute('disabled', 'disabled');
-    document.getElementById('housing-features').removeAttribute('disabled', 'disabled');
+  document.querySelector('.ad-form-header').removeAttribute('disabled', 'disabled');
 
-    document.querySelector('.ad-form-header').removeAttribute('disabled', 'disabled');
+  var elements = document.querySelectorAll('.ad-form__element');
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeAttribute('disabled', 'disabled');
+  }
 
-    var elements = document.querySelectorAll('.ad-form__element');
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].removeAttribute('disabled', 'disabled');
-    }
+  var map = document.querySelector('.map');
+  map.classList.remove('map--faded');
 
-    var map = document.querySelector('.map');
-    map.classList.remove('map--faded');
+  var adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled');
 
-    var adForm = document.querySelector('.ad-form');
-    adForm.classList.remove('ad-form--disabled');
+  createPins(mockData);
+};
+// createAdvert(mockData);
 
-    createPins(mockData);
-    createAdvert(mockData);
+var appDeactivate = function () {
+  for (var l = 0; l < FILTER_ARRAY.length; l++) {
+    document.querySelector(FILTER_ARRAY[l]).setAttribute('disabled', 'disabled');
+  }
 
-  } else {
-    document.getElementById('housing-type').setAttribute('disabled', 'disabled');
-    document.getElementById('housing-price').setAttribute('disabled', 'disabled');
-    document.getElementById('housing-rooms').setAttribute('disabled', 'disabled');
-    document.getElementById('housing-guests').setAttribute('disabled', 'disabled');
-    document.getElementById('housing-features').setAttribute('disabled', 'disabled');
+  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
 
-    document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
-
-    elements = document.querySelectorAll('.ad-form__element');
-    for (var j = 0; j < elements.length; j++) {
-      elements[j].setAttribute('disabled', 'disabled');
-    }
+  var elements = document.querySelectorAll('.ad-form__element');
+  for (var j = 0; j < elements.length; j++) {
+    elements[j].setAttribute('disabled', 'disabled');
   }
 };
 
-formDisable(enableFields);
+appDeactivate();
 
 var mainPin = document.querySelector('.map__pin--main');
-mainPin.addEventListener('mouseup', function () {
-  enableFields = true;
-  formDisable('enableFields');
-});
+var listener = function () {
+  appActivate();
+  mainPin.removeEventListener('mouseup', listener, false);
+};
+mainPin.addEventListener('mouseup', listener, false);
+
