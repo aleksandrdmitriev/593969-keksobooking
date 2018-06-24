@@ -182,6 +182,7 @@ var createAdvert = function (dataArrayItem) {
   var buttonClose = popupAdvert.querySelector('.popup__close');
   function onCloseButtonClick() {
     popupAdvert.parentNode.removeChild(popupAdvert);
+    event.stopPropagation();
   }
   buttonClose.addEventListener('click', onCloseButtonClick, false);
 };
@@ -207,8 +208,6 @@ var appActivate = function () {
   document.querySelector('#address').value = PIN_X_INIT + ', ' + PIN_Y_INIT;
 
   createPins(mockData);
-
-
 
 };
 
@@ -238,7 +237,6 @@ var mapElement = document.querySelector('.map');
 var onMapElementClick = function (evt) {
 
   var target = evt.target;
-  console.log(target);
   while (target !== mapElement) {
     if (target.className === 'map__pin') {
       var index = target.getAttribute('data-index');
