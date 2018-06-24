@@ -132,6 +132,11 @@ var getHousingType = function (arrayItem) {
 };
 
 var createAdvert = function (dataArrayItem) {
+  var popupAdvert = document.querySelector('.popup');
+  if (popupAdvert !== null) {
+    onCloseButtonClick();
+  }
+
   var advertParentElement = document.querySelector('.map');
   var advertNextElement = document.querySelector('.map__filters-container');
   var advertTemplate = document.querySelector('template')
@@ -173,6 +178,12 @@ var createAdvert = function (dataArrayItem) {
 
   advertParentElement.insertBefore(advertElement, advertNextElement);
 
+  popupAdvert = document.querySelector('.popup');
+  var buttonClose = popupAdvert.querySelector('.popup__close');
+  function onCloseButtonClick() {
+    popupAdvert.parentNode.removeChild(popupAdvert);
+  }
+  buttonClose.addEventListener('click', onCloseButtonClick, false);
 };
 
 var appActivate = function () {
@@ -197,6 +208,8 @@ var appActivate = function () {
 
   createPins(mockData);
 
+
+
 };
 
 var appDeactivate = function () {
@@ -214,23 +227,22 @@ var appDeactivate = function () {
 
 appDeactivate();
 
+var mainPin = document.querySelector('.map__pin--main');
+var onMainPinMouseup = function () {
+  appActivate();
+  mainPin.removeEventListener('mouseup', onMainPinMouseup, false);
+};
+mainPin.addEventListener('mouseup', onMainPinMouseup, false);
+
 var mapElement = document.querySelector('.map');
 var onMapElementClick = function (evt) {
 
   var target = evt.target;
+  console.log(target);
   while (target !== mapElement) {
     if (target.className === 'map__pin') {
       var index = target.getAttribute('data-index');
       createAdvert(mockData[index]);
-
-      var popupAdvert = document.querySelector('.popup');
-      var buttonClose = popupAdvert.querySelector('.popup__close');
-      var onCloseButtonClick = function () {
-        popupAdvert.parentNode.removeChild(popupAdvert);
-        buttonClose.removeEventListener('click', onCloseButtonClick, false);
-        event.stopImmediatePropagation();
-      };
-      buttonClose.addEventListener('click', onCloseButtonClick, false);
 
       return;
     }
@@ -238,10 +250,3 @@ var onMapElementClick = function (evt) {
   }
 };
 mapElement.addEventListener('click', onMapElementClick, false);
-
-var mainPin = document.querySelector('.map__pin--main');
-var onMainPinMouseup = function () {
-  appActivate();
-  mainPin.removeEventListener('mouseup', onMainPinMouseup, false);
-};
-mainPin.addEventListener('mouseup', onMainPinMouseup, false);
