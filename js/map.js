@@ -242,6 +242,19 @@ var appActivate = function () {
   }
   typeInputElement.addEventListener('change', onChangeType, false);
 
+  var timeInInputElement = adForm.querySelector('#timein');
+  var timeOutInputElement = adForm.querySelector('#timeout');
+  function onChangeTimeIn(evt) {
+    timeOutInputElement.value = evt.target.value;
+  }
+  timeInInputElement.addEventListener('change', onChangeTimeIn, false);
+
+  function onChangeTimeOut(evt) {
+    timeInInputElement.value = evt.target.value;
+  }
+  timeOutInputElement.addEventListener('change', onChangeTimeOut, false);
+
+
   createPins(mockData);
 
 };
