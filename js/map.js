@@ -22,6 +22,10 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var PIN_X_INIT = 603;
 var PIN_Y_INIT = 408;
+var BUNGALO_PRICE_MIN = 0;
+var FLAT_PRICE_MIN = 1000;
+var HOUSE_PRICE_MIN = 5000;
+var PALACE_PRICE_MIN = 10000;
 
 var getRandomArrayItem = function (array) {
 
@@ -206,6 +210,37 @@ var appActivate = function () {
   adForm.classList.remove('ad-form--disabled');
 
   document.querySelector('#address').value = PIN_X_INIT + ', ' + PIN_Y_INIT;
+
+  var typeInputElement = adForm.querySelector('#type');
+  var priceInputElement = adForm.querySelector('#price');
+  var typeInputElementValue = typeInputElement.value;
+  function getHousingPrice(ElementValue) {
+    switch (ElementValue) {
+      case 'palace':
+
+        return PALACE_PRICE_MIN;
+
+      case 'house':
+
+        return HOUSE_PRICE_MIN;
+
+      case 'bungalo':
+
+        return BUNGALO_PRICE_MIN;
+
+      default:
+
+        return FLAT_PRICE_MIN;
+    }
+  }
+
+  function onChangeType() {
+    typeInputElementValue = typeInputElement.value;
+    var minPrice = getHousingPrice(typeInputElementValue);
+    priceInputElement.setAttribute('min', minPrice);
+    priceInputElement.setAttribute('placeholder', minPrice);
+  }
+  typeInputElement.addEventListener('change', onChangeType, false);
 
   createPins(mockData);
 
