@@ -260,6 +260,8 @@ var appActivate = function () {
   var roomNumberInputElement = adForm.querySelector('#room_number');
   var capacityInputElement = adForm.querySelector('#capacity');
   function onChangeRoomNumber(evt) {
+    alert(evt.target.value);
+    debugger;
     if (evt.target.value == 1) {
       if (capacityInputElement.value == 0 || capacityInputElement.value != 1) {
       capacityInputElement.setCustomValidity('Измените количество гостей');
@@ -276,27 +278,33 @@ var appActivate = function () {
         if (capacityInputElement.value != 0) {
           capacityInputElement.setCustomValidity('Выберите вариант: Не для гостей');
         }
-      }
+    } else {
+      capacityInputElement.setCustomValidity('');
+    }
   }
   roomNumberInputElement.addEventListener('change', onChangeRoomNumber, false);
 
   function onChangeCapacity(evt) {
+    alert(evt.target.value);
+    debugger;
     if (evt.target.value == 1) {
-      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value != 1) {
-        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+      if (roomNumberInputElement.value == 100) {
+        roomNumberInputElement.setCustomValidity('Выберите вариант: 100 комнат');
       }
     } else if (evt.target.value == 2) {
       if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 2) {
-        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+        roomNumberInputElement.setCustomValidity('Увеличьте количество комнат');
       }
     } else if (evt.target.value == 3) {
       if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 3) {
-        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+        roomNumberInputElement.setCustomValidity('Увеличьте количество комнат');
       }
     } else if (evt.target.value == 0) {
       if (roomNumberInputElement.value != 100) {
         roomNumberInputElement.setCustomValidity('Выберите вариант: 100 комнат');
       }
+    } else {
+      roomNumberInputElement.setCustomValidity('');
     }
   }
   capacityInputElement.addEventListener('change', onChangeCapacity, false);
