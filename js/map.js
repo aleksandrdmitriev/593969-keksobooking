@@ -257,6 +257,50 @@ var appActivate = function () {
 
   createPins(mockData);
 
+  var roomNumberInputElement = adForm.querySelector('#room_number');
+  var capacityInputElement = adForm.querySelector('#capacity');
+  function onChangeRoomNumber(evt) {
+    if (evt.target.value == 1) {
+      if (capacityInputElement.value == 0 || capacityInputElement.value != 1) {
+      capacityInputElement.setCustomValidity('Измените количество гостей');
+      }
+    } else if (evt.target.value == 2) {
+        if (capacityInputElement.value == 0 || capacityInputElement.value > 2) {
+        capacityInputElement.setCustomValidity('Измените количество гостей');
+        }
+    } else if (evt.target.value == 3) {
+        if (capacityInputElement.value == 0 || capacityInputElement.value > 3) {
+        capacityInputElement.setCustomValidity('Измените количество гостей');
+        }
+    } else if (evt.target.value == 100) {
+        if (capacityInputElement.value != 0) {
+          capacityInputElement.setCustomValidity('Выберите вариант: Не для гостей');
+        }
+      }
+  }
+  roomNumberInputElement.addEventListener('change', onChangeRoomNumber, false);
+
+  function onChangeCapacity(evt) {
+    if (evt.target.value == 1) {
+      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value != 1) {
+        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+      }
+    } else if (evt.target.value == 2) {
+      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 2) {
+        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+      }
+    } else if (evt.target.value == 3) {
+      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 3) {
+        roomNumberInputElement.setCustomValidity('Измените количество гостей');
+      }
+    } else if (evt.target.value == 0) {
+      if (roomNumberInputElement.value != 100) {
+        roomNumberInputElement.setCustomValidity('Выберите вариант: 100 комнат');
+      }
+    }
+  }
+  capacityInputElement.addEventListener('change', onChangeCapacity, false);
+
 };
 
 var appDeactivate = function () {
