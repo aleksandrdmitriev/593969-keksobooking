@@ -238,58 +238,50 @@ var appActivate = function () {
 
   createPins(mockData);
 
-  var roomNumberInputElement = adForm.querySelector('#room_number');
-  var capacityInputElement = adForm.querySelector('#capacity');
-  function onChangeRoomNumber(evt) {
-    alert(evt.target.value);
-    debugger;
-    if (evt.target.value == 1) {
-      if (capacityInputElement.value == 0 || capacityInputElement.value != 1) {
-      capacityInputElement.setCustomValidity('Измените количество гостей');
-      }
-    } else if (evt.target.value == 2) {
-        if (capacityInputElement.value == 0 || capacityInputElement.value > 2) {
-        capacityInputElement.setCustomValidity('Измените количество гостей');
-        }
-    } else if (evt.target.value == 3) {
-        if (capacityInputElement.value == 0 || capacityInputElement.value > 3) {
-        capacityInputElement.setCustomValidity('Измените количество гостей');
-        }
-    } else if (evt.target.value == 100) {
-        if (capacityInputElement.value != 0) {
-          capacityInputElement.setCustomValidity('Выберите вариант: Не для гостей');
-        }
-    } else {
-      capacityInputElement.setCustomValidity('');
-    }
-  }
-  roomNumberInputElement.addEventListener('change', onChangeRoomNumber, false);
+  var roomsSelect = adForm.querySelector('#room_number'); //  находит поле "Количество комнат"
+  var guestSelect = adForm.querySelector('#capacity'); //  находит поле "Количество гостей"
+  var roomsSelected = Number(roomsSelect.value); // хранит выбранное значение комнат(number)
+  var guestSelected = Number(guestSelect.value); // хранит выбранное значение гостей (number)
 
-  function onChangeCapacity(evt) {
-    alert(evt.target.value);
-    debugger;
-    if (evt.target.value == 1) {
-      if (roomNumberInputElement.value == 100) {
-        roomNumberInputElement.setCustomValidity('Выберите вариант: 100 комнат');
+  var validateGuests = function () {
+    roomsSelected = Number(roomsSelect.value); // хранит выбранное значение комнат(number)
+    guestSelected = Number(guestSelect.value); // хранит выбранное значение гостей (number)
+    var customMessage = '';
+    switch (guestSelected) {
+      case (1): {
+        if ((roomsSelected < 1) || (roomsSelected === 100)) {
+          customMessage = 'Для указанного количества гостей не подходит вариант 100 комнат';
+        }
+        break;
       }
-    } else if (evt.target.value == 2) {
-      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 2) {
-        roomNumberInputElement.setCustomValidity('Увеличьте количество комнат');
+      case (2): {
+        if (roomsSelected < 2) {
+          customMessage = 'Для указанного количества гостей подходят варианты: 2 комнаты, 3 комнаты';
+        }
+        break;
       }
-    } else if (evt.target.value == 3) {
-      if (roomNumberInputElement.value == 100 || roomNumberInputElement.value < 3) {
-        roomNumberInputElement.setCustomValidity('Увеличьте количество комнат');
+      case (3): {
+        if (roomsSelected < 3) {
+          customMessage = 'Для указанного количества гостей подходит вариант: 3 комнаты';
+        }
+        break;
       }
-    } else if (evt.target.value == 0) {
-      if (roomNumberInputElement.value != 100) {
-        roomNumberInputElement.setCustomValidity('Выберите вариант: 100 комнат');
+      case (0): {
+        if (roomsSelected !== 100) {
+          customMessage = 'Для указанного количества гостей подходит вариант: 100 комнат';
+        }
+        break;
       }
-    } else {
-      roomNumberInputElement.setCustomValidity('');
     }
-  }
-  capacityInputElement.addEventListener('change', onChangeCapacity, false);
+    roomsSelect.setCustomValidity(customMessage);
+  };
 
+  validateGuests();
+  roomsSelect.addEventListener('change', validateGuests);
+  guestSelect.addEventListener('change', function () {
+    guestSelected = Number(guestSelected.value);
+    validateGuests();
+  });
 };
 
 var appDeactivate = function () {
