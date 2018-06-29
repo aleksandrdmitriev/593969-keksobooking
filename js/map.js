@@ -297,7 +297,7 @@ var appDeactivate = function () {
   }
 };
 
-appDeactivate();
+appDeactivate(); // возвращает страницу к исходному состоянию
 
 var mainPin = document.querySelector('.map__pin--main');
 var onMainPinMouseup = function () {
@@ -321,3 +321,15 @@ var onMapElementClick = function (evt) {
   }
 };
 mapElement.addEventListener('click', onMapElementClick, false);
+
+var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
+function onClearButtonClick() {
+appDeactivate();
+document.querySelector('.map').classList.add('map--faded');
+document.querySelector('.ad-form').classList.add('ad-form--disabled');
+document.removeEventListener('click', onClearButtonClick, false);
+document.removeEventListener('click', onMapElementClick, false);
+
+  
+};
+clearButton.addEventListener('click', onClearButtonClick, false);
