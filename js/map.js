@@ -56,6 +56,7 @@ function getRandomItems(n) {
   return Math.floor(Math.random() * (n + 1));
 }
 
+// Создание массива фэйковых данных
 var createMockData = function () {
   var mockDataArray = [];
   for (var i = 1; i <= NUMBER_OF_OBJECTS; i++) {
@@ -96,6 +97,7 @@ var createMockData = function () {
 
 var mockData = createMockData();
 
+// Создание пинов объявлений
 var createPins = function (dataArray) {
   var pinListElement = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template')
@@ -118,6 +120,7 @@ var createPins = function (dataArray) {
   pinListElement.appendChild(fragment);
 };
 
+// Перевод типа жилья на русский язык
 var getHousingType = function (arrayItem) {
   switch (arrayItem) {
     case 'palace':
@@ -137,9 +140,18 @@ var getHousingType = function (arrayItem) {
       return 'Дом';
   }
 };
+var popupAdvert = document.querySelector('.popup');
 
+// Закрытие объявления
+function onCloseButtonClick() {
+
+  popupAdvert.parentNode.removeChild(popupAdvert);
+  event.stopPropagation();
+}
+
+// Создание объявления
 var createAdvert = function (dataArrayItem) {
-  var popupAdvert = document.querySelector('.popup');
+  popupAdvert = document.querySelector('.popup');
   if (popupAdvert !== null) {
     onCloseButtonClick();
   }
@@ -187,13 +199,11 @@ var createAdvert = function (dataArrayItem) {
 
   popupAdvert = document.querySelector('.popup');
   var buttonClose = popupAdvert.querySelector('.popup__close');
-  function onCloseButtonClick() {
-    popupAdvert.parentNode.removeChild(popupAdvert);
-    event.stopPropagation();
-  }
+
   buttonClose.addEventListener('click', onCloseButtonClick, false);
 };
 
+// Запуск приложения
 var appActivate = function () {
   for (var k = 0; k < FILTER_ARRAY.length; k++) {
     document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
@@ -255,13 +265,13 @@ var appActivate = function () {
         break;
       }
       case (2): {
-        if (roomsSelected < 2) {
+        if ((roomsSelected < 2) || (roomsSelected === 100)) {
           customMessage = 'Для указанного количества гостей подходят варианты: 2 комнаты, 3 комнаты';
         }
         break;
       }
       case (3): {
-        if (roomsSelected < 3) {
+        if ((roomsSelected < 3) || (roomsSelected === 100)) {
           customMessage = 'Для указанного количества гостей подходит вариант: 3 комнаты';
         }
         break;
@@ -278,12 +288,13 @@ var appActivate = function () {
 
   validateGuests();
   roomsSelect.addEventListener('change', validateGuests);
-  guestSelect.addEventListener('change', function () {
-    guestSelected = Number(guestSelected.value);
-    validateGuests();
-  });
+  guestSelect.addEventListener('change', validateGuests);
+  //   guestSelected = Number(guestSelected.value);
+  //   validateGuests();
+  // });
 };
 
+// Возвращает страницу к исходному состоянию
 var appDeactivate = function () {
   for (var l = 0; l < FILTER_ARRAY.length; l++) {
     document.querySelector(FILTER_ARRAY[l]).setAttribute('disabled', 'disabled');
@@ -297,7 +308,7 @@ var appDeactivate = function () {
   }
 };
 
-appDeactivate(); // возвращает страницу к исходному состоянию
+appDeactivate();
 
 var mainPin = document.querySelector('.map__pin--main');
 var onMainPinMouseup = function () {
@@ -323,13 +334,20 @@ var onMapElementClick = function (evt) {
 mapElement.addEventListener('click', onMapElementClick, false);
 
 var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
-function onClearButtonClick() {
-appDeactivate();
-document.querySelector('.map').classList.add('map--faded');
-document.querySelector('.ad-form').classList.add('ad-form--disabled');
-document.removeEventListener('click', onClearButtonClick, false);
-document.removeEventListener('click', onMapElementClick, false);
 
-  
-};
+// Очистка формы
+function onClearButtonClick() {
+  appDeactivate();
+  document.querySelector('.map').classList.add('map--faded');
+  document.querySelector('.ad-form').classList.add('ad-form--disabled');
+  var pinListElement = document.querySelector('.map__pins');
+  var pinElements = pinListElement.querySelectorAll('.map__pin');
+  for (var i = 1; i < pinElements.length; i++) {
+    pinElements[i].parentNode.removeChild(pinElements[i]);
+  }
+  document.removeEventListener('click', onClearButtonClick, false);
+  mainPin.addEventListener('mouseup', onMainPinMouseup, false);
+  popupAdvert = document.querySelector('.popup');
+  onCloseButtonClick();
+}
 clearButton.addEventListener('click', onClearButtonClick, false);
