@@ -22,6 +22,13 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var PIN_X_INIT = 603;
 var PIN_Y_INIT = 408;
+var priceMin = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000,
+};
+
 
 var getRandomArrayItem = function (array) {
 
@@ -49,6 +56,7 @@ function getRandomItems(n) {
   return Math.floor(Math.random() * (n + 1));
 }
 
+// Создание массива фэйковых данных
 var createMockData = function () {
   var mockDataArray = [];
   for (var i = 1; i <= NUMBER_OF_OBJECTS; i++) {
@@ -89,6 +97,7 @@ var createMockData = function () {
 
 var mockData = createMockData();
 
+// Создание пинов объявлений
 var createPins = function (dataArray) {
   var pinListElement = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('template')
@@ -111,6 +120,7 @@ var createPins = function (dataArray) {
   pinListElement.appendChild(fragment);
 };
 
+// Перевод типа жилья на русский язык
 var getHousingType = function (arrayItem) {
   switch (arrayItem) {
     case 'palace':
@@ -130,9 +140,18 @@ var getHousingType = function (arrayItem) {
       return 'Дом';
   }
 };
+var popupAdvert = document.querySelector('.popup');
 
+// Закрытие объявления
+function onCloseButtonClick() {
+
+  popupAdvert.parentNode.removeChild(popupAdvert);
+  event.stopPropagation();
+}
+
+// Создание объявления
 var createAdvert = function (dataArrayItem) {
-  var popupAdvert = document.querySelector('.popup');
+  popupAdvert = document.querySelector('.popup');
   if (popupAdvert !== null) {
     onCloseButtonClick();
   }
@@ -180,13 +199,11 @@ var createAdvert = function (dataArrayItem) {
 
   popupAdvert = document.querySelector('.popup');
   var buttonClose = popupAdvert.querySelector('.popup__close');
-  function onCloseButtonClick() {
-    popupAdvert.parentNode.removeChild(popupAdvert);
-    event.stopPropagation();
-  }
+
   buttonClose.addEventListener('click', onCloseButtonClick, false);
 };
 
+// Запуск приложения
 var appActivate = function () {
   for (var k = 0; k < FILTER_ARRAY.length; k++) {
     document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
@@ -207,10 +224,77 @@ var appActivate = function () {
 
   document.querySelector('#address').value = PIN_X_INIT + ', ' + PIN_Y_INIT;
 
+  var typeInputElement = adForm.querySelector('#type');
+  var priceInputElement = adForm.querySelector('#price');
+
+  function onChangeType() {
+    var typeInputElementValue = typeInputElement.value;
+    priceInputElement.setAttribute('min', priceMin[typeInputElementValue]);
+    priceInputElement.setAttribute('placeholder', priceMin[typeInputElementValue]);
+  }
+  typeInputElement.addEventListener('change', onChangeType, false);
+
+  var timeInInputElement = adForm.querySelector('#timein');
+  var timeOutInputElement = adForm.querySelector('#timeout');
+  function onChangeTimeIn(evt) {
+    timeOutInputElement.value = evt.target.value;
+  }
+  timeInInputElement.addEventListener('change', onChangeTimeIn, false);
+
+  function onChangeTimeOut(evt) {
+    timeInInputElement.value = evt.target.value;
+  }
+  timeOutInputElement.addEventListener('change', onChangeTimeOut, false);
+
   createPins(mockData);
 
+  var roomsSelect = adForm.querySelector('#room_number'); //  находит поле "Количество комнат"
+  var guestSelect = adForm.querySelector('#capacity'); //  находит поле "Количество гостей"
+  var roomsSelected = Number(roomsSelect.value); // хранит выбранное значение комнат(number)
+  var guestSelected = Number(guestSelect.value); // хранит выбранное значение гостей (number)
+
+  var validateGuests = function () {
+    roomsSelected = Number(roomsSelect.value); // хранит выбранное значение комнат(number)
+    guestSelected = Number(guestSelect.value); // хранит выбранное значение гостей (number)
+    var customMessage = '';
+    switch (guestSelected) {
+      case (1): {
+        if ((roomsSelected < 1) || (roomsSelected === 100)) {
+          customMessage = 'Для указанного количества гостей не подходит вариант 100 комнат';
+        }
+        break;
+      }
+      case (2): {
+        if ((roomsSelected < 2) || (roomsSelected === 100)) {
+          customMessage = 'Для указанного количества гостей подходят варианты: 2 комнаты, 3 комнаты';
+        }
+        break;
+      }
+      case (3): {
+        if ((roomsSelected < 3) || (roomsSelected === 100)) {
+          customMessage = 'Для указанного количества гостей подходит вариант: 3 комнаты';
+        }
+        break;
+      }
+      case (0): {
+        if (roomsSelected !== 100) {
+          customMessage = 'Для указанного количества гостей подходит вариант: 100 комнат';
+        }
+        break;
+      }
+    }
+    roomsSelect.setCustomValidity(customMessage);
+  };
+
+  validateGuests();
+  roomsSelect.addEventListener('change', validateGuests);
+  guestSelect.addEventListener('change', validateGuests);
+  //   guestSelected = Number(guestSelected.value);
+  //   validateGuests();
+  // });
 };
 
+// Возвращает страницу к исходному состоянию
 var appDeactivate = function () {
   for (var l = 0; l < FILTER_ARRAY.length; l++) {
     document.querySelector(FILTER_ARRAY[l]).setAttribute('disabled', 'disabled');
@@ -248,3 +332,22 @@ var onMapElementClick = function (evt) {
   }
 };
 mapElement.addEventListener('click', onMapElementClick, false);
+
+var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
+
+// Очистка формы
+function onClearButtonClick() {
+  appDeactivate();
+  document.querySelector('.map').classList.add('map--faded');
+  document.querySelector('.ad-form').classList.add('ad-form--disabled');
+  var pinListElement = document.querySelector('.map__pins');
+  var pinElements = pinListElement.querySelectorAll('.map__pin');
+  for (var i = 1; i < pinElements.length; i++) {
+    pinElements[i].parentNode.removeChild(pinElements[i]);
+  }
+  document.removeEventListener('click', onClearButtonClick, false);
+  mainPin.addEventListener('mouseup', onMainPinMouseup, false);
+  popupAdvert = document.querySelector('.popup');
+  onCloseButtonClick();
+}
+clearButton.addEventListener('click', onClearButtonClick, false);
