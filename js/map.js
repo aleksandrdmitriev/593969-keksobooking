@@ -19,12 +19,15 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 20;
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
 var MAIN_PIN_X_INIT = 570;
 var MAIN_PIN_Y_INIT = 375;
-var PIN_X_INIT = 603;
-var PIN_Y_INIT = 408;
+var PIN_WIDTH = 50; // ширина пина пина
+var PIN_HEIGHT = 70; // высота пина
+var MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
+var MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
+var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
+var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
+
 var priceMin = {
   bungalo: 0,
   flat: 1000,
@@ -224,7 +227,19 @@ var appActivate = function () {
   var adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
-  document.querySelector('#address').value = PIN_X_INIT + ', ' + PIN_Y_INIT;
+  //  подставляем адрес в форму
+  var calculateAdвress = function () {
+    var mainPin = document.querySelector('.map__pin--main');
+    var addressCoords = {
+      x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + MAIN_PIN_WIDTH / 2,
+      y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + MAIN_PIN_HEIGHT
+    };
+
+    return addressCoords;
+
+  };
+
+  document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
 
   var typeInputElement = adForm.querySelector('#type');
   var priceInputElement = adForm.querySelector('#price');
@@ -291,9 +306,6 @@ var appActivate = function () {
   validateGuests();
   roomsSelect.addEventListener('change', validateGuests);
   guestSelect.addEventListener('change', validateGuests);
-  //   guestSelected = Number(guestSelected.value);
-  //   validateGuests();
-  // });
 };
 
 // Возвращает страницу к исходному состоянию
@@ -350,11 +362,6 @@ function onClearButtonClick() {
 clearButton.addEventListener('click', onClearButtonClick, false);
 
 mainPin = document.querySelector('.map__pin--main'); // нашли элемент который будем перетаскивать
-
-var MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
-var MAIN_PIN_HEIGHT = 58; // высота главного пина в неактивном состоянии
-var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
-var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
 
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
