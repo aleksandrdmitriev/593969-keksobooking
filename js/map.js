@@ -21,8 +21,8 @@ var GUESTS_MIN = 1;
 var GUESTS_MAX = 20;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-var MAIN_PIN_X_SHIFT = 53;
-var MAIN_PIN_Y_SHIFT = 31;
+var MAIN_PIN_X_INIT = 570;
+var MAIN_PIN_Y_INIT = 375;
 var PIN_X_INIT = 603;
 var PIN_Y_INIT = 408;
 var priceMin = {
@@ -31,7 +31,6 @@ var priceMin = {
   house: 5000,
   palace: 10000,
 };
-
 
 var getRandomArrayItem = function (array) {
 
@@ -314,12 +313,6 @@ var appDeactivate = function () {
 appDeactivate();
 
 var mainPin = document.querySelector('.map__pin--main');
-var onMainPinMouseup = function () {
-  appActivate();
-  mainPin.removeEventListener('mouseup', onMainPinMouseup, false);
-};
-mainPin.addEventListener('mouseup', onMainPinMouseup, false);
-
 var mapElement = document.querySelector('.map');
 var onMapElementClick = function (evt) {
 
@@ -349,14 +342,14 @@ function onClearButtonClick() {
     pinElements[i].parentNode.removeChild(pinElements[i]);
   }
   document.removeEventListener('click', onClearButtonClick, false);
-  mainPin.addEventListener('mouseup', onMainPinMouseup, false);
+  mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
+  mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
   popupAdvert = document.querySelector('.popup');
   onCloseButtonClick();
 }
 clearButton.addEventListener('click', onClearButtonClick, false);
 
-mainPin = document.querySelector('.map__pin--main'); // нашли элемент за который будем перетаскивать
-var map = document.querySelector('.map'); //  нашли элемент внутри которого будем перетаскивать
+mainPin = document.querySelector('.map__pin--main'); // нашли элемент который будем перетаскивать
 
 var MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
 var MAIN_PIN_HEIGHT = 58; // высота главного пина в неактивном состоянии
@@ -416,7 +409,6 @@ mainPin.addEventListener('mousedown', function (evt) {
 
     var newPinlocation = calculateNewLocation();
 
-
     mainPin.style.top = (newPinlocation.y) + 'px';
     mainPin.style.left = (newPinlocation.x) + 'px';
 
@@ -424,10 +416,9 @@ mainPin.addEventListener('mousedown', function (evt) {
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
+    appActivate();
     document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMainPinMouseup);
-
+    document.removeEventListener('mouseup', onMouseUp);
   };
 
   document.addEventListener('mousemove', onMouseMove);
