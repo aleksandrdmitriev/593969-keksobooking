@@ -8,8 +8,9 @@
     house: 5000,
     palace: 10000,
   };
-
-  var adForm = document.querySelector('.ad-form');
+  var ESC_KEYCODE = 27;
+  var adForm = document.querySelector('.ad-form'); // Находит блок формы объявления
+  var successMessage = document.querySelector('.success'); // Находит блок сообщения об успешной отправке объявления
   var typeInputElement = adForm.querySelector('#type');
   var priceInputElement = adForm.querySelector('#price');
 
@@ -78,5 +79,40 @@
 
   roomsSelect.addEventListener('change', validateGuests);
   guestSelect.addEventListener('change', validateGuests);
+
+  //  Закрыть popup по ESC
+
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
+    }
+  };
+
+  //  Открытие окна с сообщением об отправке формы
+
+  var openPopup = function () {
+    successMessage.classList.remove('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  //  Закрытие окна с сообщением об отправке формы
+
+  var closePopup = function () {
+    successMessage.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onSuccessForm = function () {
+    openPopup();
+    successMessage.addEventListener('keydown', onPopupEscPress);
+    successMessage.addEventListener('click', closePopup);
+    window.onClearButtonClick();
+  };
+
+  // Отправка формы
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.save(new FormData(adForm), onSuccessForm, window.onError);
+  });
 
 })();

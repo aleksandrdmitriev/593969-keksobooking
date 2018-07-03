@@ -66,7 +66,7 @@
   var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
 
   // Очистка
-  function onClearButtonClick() {
+  window.onClearButtonClick = function () {
     appDeactivate();
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
@@ -75,14 +75,14 @@
     for (var i = 1; i < pinElements.length; i++) {
       pinElements[i].parentNode.removeChild(pinElements[i]);
     }
-    document.removeEventListener('click', onClearButtonClick, false);
+    document.removeEventListener('click', window.onClearButtonClick, false);
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
     window.popupAdvert = document.querySelector('.popup');
 
     window.onCloseButtonClick();
-  }
-  clearButton.addEventListener('click', onClearButtonClick, false);
+  };
+  clearButton.addEventListener('click', window.onClearButtonClick, false);
 
   mainPin = document.querySelector('.map__pin--main'); // нашли элемент который будем перетаскивать
 
