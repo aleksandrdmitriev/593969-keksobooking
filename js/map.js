@@ -55,7 +55,7 @@
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
         var index = target.getAttribute('data-index');
-        window.createAdvert(window.mockData[index]);
+        window.createAdvert(window.realData[index]);
 
         return;
       }
@@ -148,7 +148,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       appActivate();
-      window.createPins(window.mockData);
+      window.createPins(window.realData);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
