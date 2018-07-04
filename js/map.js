@@ -13,6 +13,10 @@
 
   // Запуск приложения
   var appActivate = function () {
+
+    // Скачивание массива с сервера
+    window.load(onSuccess, window.onError);
+
     for (var k = 0; k < FILTER_ARRAY.length; k++) {
       document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
     }
@@ -29,6 +33,21 @@
 
     var adForm = document.querySelector('.ad-form');
     adForm.classList.remove('ad-form--disabled');
+
+    //  подставляем адрес в форму
+
+    var calculateAdвress = function () {
+      mainPin = document.querySelector('.map__pin--main');
+      var addressCoords = {
+        x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_WIDTH / 2,
+        y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_HEIGHT
+      };
+
+      return addressCoords;
+
+    };
+
+    document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
   };
 
   // Возвращает страницу к исходному состоянию
@@ -81,9 +100,12 @@
     document.removeEventListener('click', window.onClearButtonClick, false);
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
+    document.querySelector('#address').value = MAIN_PIN_X_INIT + window.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.MAIN_PIN_HEIGHT);
     window.popupAdvert = document.querySelector('.popup');
+    if (window.popupAdvert) {
+      window.onCloseButtonClick();
+    }
 
-    window.onCloseButtonClick();
   };
   clearButton.addEventListener('click', window.onClearButtonClick, false);
 
@@ -150,7 +172,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       appActivate();
-      window.createPins(window.realData);
+      // window.createPins(window.realData);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -159,25 +181,12 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-  //  подставляем адрес в форму
-
-  var calculateAdвress = function () {
-    mainPin = document.querySelector('.map__pin--main');
-    var addressCoords = {
-      x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_WIDTH / 2,
-      y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_HEIGHT
-    };
-
-    return addressCoords;
-
-  };
-debugger;
-  document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
 
   //  Получение массива реальных данных
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
+    window.createPins(window.realData);
   };
 
   // Сообщение об ошибке
@@ -193,8 +202,5 @@ debugger;
     errorMessageElement.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorMessageElement);
   };
-
-  // Скачивание массива с сервера
-  window.load(onSuccess, window.onError);
 
 })();
