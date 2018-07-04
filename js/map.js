@@ -9,9 +9,14 @@
   window.MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
   var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
   var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
+  window.realData = null;
 
   // Запуск приложения
   var appActivate = function () {
+
+    // Скачивание массива с сервера
+    window.load(onSuccess, window.onError);
+
     for (var k = 0; k < FILTER_ARRAY.length; k++) {
       document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
     }
@@ -28,6 +33,21 @@
 
     var adForm = document.querySelector('.ad-form');
     adForm.classList.remove('ad-form--disabled');
+
+    //  подставляем адрес в форму
+
+    var calculateAdвress = function () {
+      mainPin = document.querySelector('.map__pin--main');
+      var addressCoords = {
+        x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_WIDTH / 2,
+        y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_HEIGHT
+      };
+
+      return addressCoords;
+
+    };
+
+    document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
   };
 
   // Возвращает страницу к исходному состоянию
@@ -54,7 +74,7 @@
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
         var index = target.getAttribute('data-index');
-        window.createAdvert(window.mockData[index]);
+        window.createAdvert(window.realData[index]);
 
         return;
       }
@@ -66,7 +86,9 @@
   var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
 
   // Очистка
-  function onClearButtonClick() {
+  window.onClearButtonClick = function () {
+    var adForm = document.querySelector('.ad-form');
+    adForm.reset();
     appDeactivate();
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
@@ -75,14 +97,17 @@
     for (var i = 1; i < pinElements.length; i++) {
       pinElements[i].parentNode.removeChild(pinElements[i]);
     }
-    document.removeEventListener('click', onClearButtonClick, false);
+    document.removeEventListener('click', window.onClearButtonClick, false);
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
+    document.querySelector('#address').value = MAIN_PIN_X_INIT + window.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.MAIN_PIN_HEIGHT);
     window.popupAdvert = document.querySelector('.popup');
+    if (window.popupAdvert) {
+      window.onCloseButtonClick();
+    }
 
-    window.onCloseButtonClick();
-  }
-  clearButton.addEventListener('click', onClearButtonClick, false);
+  };
+  clearButton.addEventListener('click', window.onClearButtonClick, false);
 
   mainPin = document.querySelector('.map__pin--main'); // нашли элемент который будем перетаскивать
 
@@ -147,7 +172,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       appActivate();
-      window.createPins(window.mockData);
+      // window.createPins(window.realData);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -156,18 +181,26 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-  //  подставляем адрес в форму
 
-  var calculateAdвress = function () {
-    mainPin = document.querySelector('.map__pin--main');
-    var addressCoords = {
-      x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_WIDTH / 2,
-      y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_HEIGHT
-    };
+  //  Получение массива реальных данных
 
-    return addressCoords;
-
+  var onSuccess = function (realDataArray) {
+    window.realData = realDataArray;
+    window.createPins(window.realData);
   };
 
-  document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
+  // Сообщение об ошибке
+
+  window.onError = function (errorMessage) {
+    var errorMessageElement = document.createElement('div');
+    errorMessageElement.style = 'z-index: 100; margin: 0 auto; text-align: center; top: 200px; left: 50%; border: 2px solid rgba(255, 50, 0, 0.7);';
+    errorMessageElement.style.position = 'fixed';
+    errorMessageElement.style.padding = '30px 30px';
+    errorMessageElement.style.fontfamily = 'Arial';
+    errorMessageElement.style.color = 'rgba(255, 50, 0, 0.7)';
+    errorMessageElement.style.fontSize = '24px';
+    errorMessageElement.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', errorMessageElement);
+  };
+
 })();
