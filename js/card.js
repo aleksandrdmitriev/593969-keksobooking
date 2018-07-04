@@ -26,16 +26,16 @@
   window.popupAdvert = document.querySelector('.popup');
 
   // Закрытие объявления
-  function onCloseButtonClick() {
+  window.onCloseButtonClick = function () {
     window.popupAdvert.parentNode.removeChild(window.popupAdvert);
     event.stopPropagation();
-  }
+  };
 
   // Создание объявления
   window.createAdvert = function (dataArrayItem) {
     window.popupAdvert = document.querySelector('.popup');
     if (window.popupAdvert !== null) {
-      onCloseButtonClick();
+      window.onCloseButtonClick();
     }
 
     var advertParentElement = document.querySelector('.map');
@@ -82,6 +82,6 @@
     window.popupAdvert = document.querySelector('.popup');
     var buttonClose = window.popupAdvert.querySelector('.popup__close');
 
-    buttonClose.addEventListener('click', onCloseButtonClick, false);
+    buttonClose.addEventListener('click', window.onCloseButtonClick, false);
   };
 })();

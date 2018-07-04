@@ -68,6 +68,8 @@
 
   // Очистка
   window.onClearButtonClick = function () {
+    var adForm = document.querySelector('.ad-form');
+    adForm.reset();
     appDeactivate();
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
@@ -169,7 +171,7 @@
     return addressCoords;
 
   };
-
+debugger;
   document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
 
   //  Получение массива реальных данных
