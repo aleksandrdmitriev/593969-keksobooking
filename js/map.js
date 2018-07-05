@@ -9,7 +9,7 @@
   window.MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
   var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
   var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
-  window.realData = null;
+  window.realData = [];
 
   // Запуск приложения
   var appActivate = function () {
@@ -186,7 +186,7 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.createPins(window.realData);
+    window.showFiltered(window.realData);
   };
 
   // Сообщение об ошибке
