@@ -186,7 +186,7 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.realDataCopy = window.realData.slice();
+//    window.realDataCopy = window.realData.slice();
 debugger;
     window.createPins(window.realData);
 
