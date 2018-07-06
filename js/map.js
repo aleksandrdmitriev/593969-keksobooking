@@ -48,6 +48,7 @@
     };
 
     document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
+    document.querySelector('#address').setAttribute('disabled', 'disabled');
   };
 
   // Возвращает страницу к исходному состоянию
