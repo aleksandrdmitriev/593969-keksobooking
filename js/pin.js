@@ -40,10 +40,11 @@
   //  Фильтрация
 
   window.showFiltered = function () {
-    debugger;
 
-    if (window.popupAdvert !== null) {
-      window.onCloseButtonClick();
+    //  Удалает объявления при смене фильтров
+    var popupAdvert = document.querySelector('.popup');
+    if (popupAdvert !== null) {
+      popupAdvert.parentNode.removeChild(window.popupAdvert);
     }
 
     //  функция удаления пинов с карты
