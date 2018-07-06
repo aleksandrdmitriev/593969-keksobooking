@@ -9,7 +9,7 @@
     PRICE: document.querySelector('#housing-price'),
     ROOMS: document.querySelector('#housing-rooms'),
     GUESTS: document.querySelector('#housing-guests'),
-    FEATURES: document.querySelector('.map__features')
+    FEATURES: document.querySelector('#housing-features')
   };
 
   // Создание пинов объявлений

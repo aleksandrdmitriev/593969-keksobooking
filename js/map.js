@@ -195,15 +195,13 @@
 
     // Вешаем обработчики фильтров
 
-    window.Filter.TYPE.addEventListener('change', window.debounce(function () {
+    document.querySelector('#housing-type').addEventListener('change', window.debounce(function () {
       window.showFiltered();
     }));
-    window.Filter.PRICE.addEventListener('change', window.showFiltered);
-    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
-    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
-    window.Filter.GUESTS.addEventListener('change', window.showFiltered);
-    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
-    window.Filter.FEATURES.addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-price').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-rooms').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-guests').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-features').addEventListener('change', window.showFiltered);
   };
 
   // Сообщение об ошибке
