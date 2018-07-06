@@ -70,11 +70,13 @@
     advertElement.querySelector('.popup__description').textContent = dataArrayItem.offer.description;
 
     var photosElement = advertElement.querySelector('.popup__photos');
+    var fragmentFoto = document.createDocumentFragment();
     for (var j = 0; j < dataArrayItem.offer.photos.length; j++) {
       var newPhotoElement = photosElement.querySelector('.popup__photo').cloneNode(true);
       newPhotoElement.src = dataArrayItem.offer.photos[j];
-      photosElement.appendChild(newPhotoElement);
+      fragmentFoto.appendChild(newPhotoElement);
     }
+    photosElement.appendChild(fragmentFoto);
     photosElement.removeChild(photosElement.querySelector('.popup__photo'));
 
     advertParentElement.insertBefore(advertElement, advertNextElement);
