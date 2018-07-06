@@ -36,6 +36,7 @@
     pinListElement.appendChild(fragment);
   };
 
+
   //  Фильтрация
 
   window.showFiltered = function () {
@@ -89,17 +90,21 @@
       return (element.offer.guests.toString()) === window.Filter.GUESTS.value || (window.Filter.GUESTS.value === 'any');
     };
 
-    // //  Сортировка по "плюшкам"
-    // var sortFeatures = function (element) {
-    //   var checkedElements = window.Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
+    //  Сортировка по "плюшкам"
+    var sortFeatures = function (element) {
+      var checkedElements = window.Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
+      for (var i = 0; i < checkedElements.length; i++) {
+        if (checkedElements[i].checked && element.offer.features.indexOf(checkedElements[i].value) === -1) {
+          return false;
+        }
+      }
 
-    // //  дописать фильтр по фичам
-    // };
+      return true;
+    };
+
     window.realDataCopy = window.realData.slice();
-    window.updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests); // .filter(sortFeature
+    window.updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests).filter(sortFeatures);
     window.createPins(window.updatedData);
 
   };
-
 })();
-

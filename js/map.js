@@ -211,7 +211,7 @@
     var errorMessageElement = document.createElement('div');
     errorMessageElement.style = 'z-index: 100; margin: 0 auto; text-align: center; top: 200px; left: 50%; border: 2px solid rgba(255, 50, 0, 0.7);';
     errorMessageElement.style.position = 'fixed';
-    errorMessageElement.style.padding = '30px 30px';
+    errorMessageElement.style.padding = '50px 30px';
     errorMessageElement.style.fontfamily = 'Arial';
     errorMessageElement.style.color = 'rgba(255, 50, 0, 0.7)';
     errorMessageElement.style.fontSize = '24px';

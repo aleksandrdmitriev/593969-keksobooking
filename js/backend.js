@@ -34,7 +34,7 @@
   //  Отправка данных
 
   window.save = function (data, onSuccess, onError) {
-    var URL = 'https://js.dump.academy/keksobooking';
+    var URL = 'https://js.dump.academy/keksobookin';
     var xhr = new XMLHttpRequest();
     xhr.timeout = 10000;
 
