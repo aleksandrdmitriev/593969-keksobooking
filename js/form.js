@@ -2,13 +2,15 @@
 
 (function () {
 
+  var ESC_KEYCODE = 27;
+
   var priceMin = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
     palace: 10000,
   };
-  var ESC_KEYCODE = 27;
+
   var adForm = document.querySelector('.ad-form'); // Находит блок формы объявления
   var successMessage = document.querySelector('.success'); // Находит блок сообщения об успешной отправке объявления
   var typeInputElement = adForm.querySelector('#type');
