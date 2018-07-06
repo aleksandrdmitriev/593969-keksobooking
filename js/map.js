@@ -35,7 +35,6 @@
     adForm.classList.remove('ad-form--disabled');
 
     //  подставляем адрес в форму
-
     var calculateAdвress = function () {
       mainPin = document.querySelector('.map__pin--main');
       var addressCoords = {
@@ -69,8 +68,8 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   var mapElement = document.querySelector('.map');
-  var onMapElementClick = function (evt) {
 
+  var onMapElementClick = function (evt) {
     var target = evt.target;
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
@@ -93,19 +92,27 @@
   // Очистка
   window.onClearButtonClick = function () {
     var adForm = document.querySelector('.ad-form');
+
     window.resetInvalidBorder(window.getInvalidFields());
+
     adForm.reset();
+
     appDeactivate();
+
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
+
     var pinListElement = document.querySelector('.map__pins');
     var pinElements = pinListElement.querySelectorAll('.map__pin');
     for (var i = 1; i < pinElements.length; i++) {
       pinElements[i].parentNode.removeChild(pinElements[i]);
     }
+
     document.removeEventListener('click', window.onClearButtonClick, false);
+
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
+
     document.querySelector('#address').value = MAIN_PIN_X_INIT + window.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.MAIN_PIN_HEIGHT);
     window.popupAdvert = document.querySelector('.popup');
     if (window.popupAdvert) {
@@ -126,10 +133,8 @@
     };
 
     var onMouseMove = function (moveEvt) {
-
       moveEvt.preventDefault();
       var mapPinParent = mainPin.offsetParent;
-
       var shift = {
         x: startLocation.x - moveEvt.clientX,
         y: startLocation.y - moveEvt.clientY

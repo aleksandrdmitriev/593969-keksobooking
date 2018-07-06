@@ -26,18 +26,16 @@
   window.popupAdvert = document.querySelector('.popup');
 
   // Закрытие объявления
-  window.onCloseButtonClick = function (evt) {
-    window.popupAdvert.parentNode.removeChild(window.popupAdvert);
-    evt.stopPropagation();
+  window.onCloseButtonClick = function () {
+    window.popupAdvert = document.querySelector('.popup');
+    if (window.popupAdvert !== null) {
+      window.popupAdvert.parentNode.removeChild(window.popupAdvert);
+    }
   };
 
   // Создание объявления
   window.createAdvert = function (dataArrayItem) {
-    window.popupAdvert = document.querySelector('.popup');
-    if (window.popupAdvert !== null) {
-      window.onCloseButtonClick();
-    }
-
+    window.onCloseButtonClick();
     var advertParentElement = document.querySelector('.map');
     var advertNextElement = document.querySelector('.map__filters-container');
     var advertTemplate = document.querySelector('template')
@@ -70,13 +68,13 @@
     advertElement.querySelector('.popup__description').textContent = dataArrayItem.offer.description;
 
     var photosElement = advertElement.querySelector('.popup__photos');
-    var fragmentFoto = document.createDocumentFragment();
+    var fragmentPhoto = document.createDocumentFragment();
     for (var j = 0; j < dataArrayItem.offer.photos.length; j++) {
       var newPhotoElement = photosElement.querySelector('.popup__photo').cloneNode(true);
       newPhotoElement.src = dataArrayItem.offer.photos[j];
-      fragmentFoto.appendChild(newPhotoElement);
+      fragmentPhoto.appendChild(newPhotoElement);
     }
-    photosElement.appendChild(fragmentFoto);
+    photosElement.appendChild(fragmentPhoto);
     photosElement.removeChild(photosElement.querySelector('.popup__photo'));
 
     advertParentElement.insertBefore(advertElement, advertNextElement);
