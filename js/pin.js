@@ -61,13 +61,13 @@
     clearPins();
 
 
-    // Сортировка по типу
-    var sortType = function (element) {
+    // Фильтр по типу
+    var filterType = function (element) {
       return (element.offer.type === window.Filter.TYPE.value || window.Filter.TYPE.value === 'any');
     };
 
-    // Сортировка по цене
-    var sortPrice = function (element) {
+    // Фильтр по цене
+    var filterPrice = function (element) {
 
       switch (window.Filter.PRICE.value) {
 
@@ -85,18 +85,18 @@
       }
     };
 
-    // Сортировка по комнатам
-    var sortRooms = function (element) {
+    // Фильтр по комнатам
+    var filterRooms = function (element) {
       return (element.offer.rooms.toString()) === window.Filter.ROOMS.value || (window.Filter.ROOMS.value === 'any');
     };
 
-    // Сортировка по гостям
-    var sortGuests = function (element) {
+    // Фильтр по гостям
+    var filterGuests = function (element) {
       return (element.offer.guests.toString()) === window.Filter.GUESTS.value || (window.Filter.GUESTS.value === 'any');
     };
 
-    //  Сортировка по features
-    var sortFeatures = function (element) {
+    //  Фильтр по features
+    var filterFeatures = function (element) {
       var checkedElements = window.Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
       for (var i = 0; i < checkedElements.length; i++) {
         if (checkedElements[i].checked && element.offer.features.indexOf(checkedElements[i].value) === -1) {
@@ -108,7 +108,12 @@
     };
 
     window.realDataCopy = window.realData.slice();
-    window.updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests).filter(sortFeatures);
+    window.updatedData = window.realDataCopy
+    .filter(filterType)
+    .filter(filterPrice)
+    .filter(filterRooms)
+    .filter(filterGuests)
+    .filter(filterFeatures).splice(0, 5);
     window.createPins(window.updatedData);
 
   };

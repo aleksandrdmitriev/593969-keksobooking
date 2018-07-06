@@ -196,13 +196,14 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.createPins(window.realData);
+    var splicedData = window.realData.splice(0, 5);
+    window.createPins(splicedData);
 
     // Вешаем обработчики фильтров
 
-    document.querySelector('#housing-type').addEventListener('change', window.debounce(function () {
-      window.showFiltered();
-    }));
+    window.showFiltered = window.debounce(window.showFiltered);
+
+    document.querySelector('#housing-type').addEventListener('change', window.showFiltered);
     document.querySelector('#housing-price').addEventListener('change', window.showFiltered);
     document.querySelector('#housing-rooms').addEventListener('change', window.showFiltered);
     document.querySelector('#housing-guests').addEventListener('change', window.showFiltered);
