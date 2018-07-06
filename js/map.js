@@ -9,7 +9,7 @@
   window.MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
   var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
   var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
-  window.realData = null;
+  window.realData = [];
 
   // Запуск приложения
   var appActivate = function () {
@@ -35,7 +35,6 @@
     adForm.classList.remove('ad-form--disabled');
 
     //  подставляем адрес в форму
-
     var calculateAdвress = function () {
       mainPin = document.querySelector('.map__pin--main');
       var addressCoords = {
@@ -48,6 +47,7 @@
     };
 
     document.querySelector('#address').value = calculateAdвress().x + ', ' + calculateAdвress().y;
+    document.querySelector('#address').setAttribute('readonly', 'readonly');
   };
 
   // Возвращает страницу к исходному состоянию
@@ -68,13 +68,17 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   var mapElement = document.querySelector('.map');
-  var onMapElementClick = function (evt) {
 
+  var onMapElementClick = function (evt) {
     var target = evt.target;
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
         var index = target.getAttribute('data-index');
-        window.createAdvert(window.realData[index]);
+        if (window.updatedData !== undefined) {
+          window.createAdvert(window.updatedData[index]);
+        } else {
+          window.createAdvert(window.realData[index]);
+        }
 
         return;
       }
@@ -88,18 +92,27 @@
   // Очистка
   window.onClearButtonClick = function () {
     var adForm = document.querySelector('.ad-form');
+
+    window.resetInvalidBorder(window.getInvalidFields());
+
     adForm.reset();
+
     appDeactivate();
+
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
+
     var pinListElement = document.querySelector('.map__pins');
     var pinElements = pinListElement.querySelectorAll('.map__pin');
     for (var i = 1; i < pinElements.length; i++) {
       pinElements[i].parentNode.removeChild(pinElements[i]);
     }
+
     document.removeEventListener('click', window.onClearButtonClick, false);
+
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
+
     document.querySelector('#address').value = MAIN_PIN_X_INIT + window.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.MAIN_PIN_HEIGHT);
     window.popupAdvert = document.querySelector('.popup');
     if (window.popupAdvert) {
@@ -120,10 +133,8 @@
     };
 
     var onMouseMove = function (moveEvt) {
-
       moveEvt.preventDefault();
       var mapPinParent = mainPin.offsetParent;
-
       var shift = {
         x: startLocation.x - moveEvt.clientX,
         y: startLocation.y - moveEvt.clientY
@@ -172,7 +183,6 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       appActivate();
-      // window.createPins(window.realData);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -186,21 +196,35 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.createPins(window.realData);
+    var splicedData = window.realData.splice(0, 5);
+    window.createPins(splicedData);
+
+    // Вешаем обработчики фильтров
+
+    window.showFiltered = window.debounce(window.showFiltered);
+
+    document.querySelector('#housing-type').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-price').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-rooms').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-guests').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-features').addEventListener('change', window.showFiltered);
   };
 
   // Сообщение об ошибке
 
   window.onError = function (errorMessage) {
     var errorMessageElement = document.createElement('div');
-    errorMessageElement.style = 'z-index: 100; margin: 0 auto; text-align: center; top: 200px; left: 50%; border: 2px solid rgba(255, 50, 0, 0.7);';
+    errorMessageElement.style = 'z-index: 3; margin: 0 auto; text-align: center; background-color: rgba(255, 50, 0, 0.7); top: 200px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 50, 0, 0.7); border-radius: 20px';
     errorMessageElement.style.position = 'fixed';
-    errorMessageElement.style.padding = '30px 30px';
+    errorMessageElement.style.padding = '50px 50px';
     errorMessageElement.style.fontfamily = 'Arial';
-    errorMessageElement.style.color = 'rgba(255, 50, 0, 0.7)';
-    errorMessageElement.style.fontSize = '24px';
+    errorMessageElement.style.color = 'white';
+    errorMessageElement.style.fontSize = '60px';
     errorMessageElement.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorMessageElement);
+    setTimeout(function () {
+      errorMessageElement.parentNode.removeChild(errorMessageElement);
+    }, 5000);
   };
 
 })();

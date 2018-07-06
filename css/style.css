@@ -635,6 +635,9 @@ fieldset {
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
           box-shadow: 0 0 2px 2px #ff6547;
 }
+.ad-form__element input.error {
+  outline: 3px solid #ff0000;
+}
 
 .ad-form__element--time {
   -ms-flex-preferred-size: 50%;
