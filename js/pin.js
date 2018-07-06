@@ -41,6 +41,9 @@
 
   window.showFiltered = function () {
 
+    if (window.popupAdvert) {
+      window.onCloseButtonClick();
+    }
 
     //  функция удаления пинов с карты
     var clearPins = function () {

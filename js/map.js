@@ -177,7 +177,6 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       appActivate();
-      // window.createPins(window.realData);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -191,12 +190,13 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    // window.realDataCopy = window.realData.slice();
     window.createPins(window.realData);
 
     // Вешаем обработчики фильтров
 
-    window.Filter.TYPE.addEventListener('change', window.showFiltered);
+    window.Filter.TYPE.addEventListener('change', window.debounce(function () {
+      window.showFiltered();
+    }));
     window.Filter.PRICE.addEventListener('change', window.showFiltered);
     window.Filter.ROOMS.addEventListener('change', window.showFiltered);
     window.Filter.ROOMS.addEventListener('change', window.showFiltered);

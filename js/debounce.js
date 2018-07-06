@@ -1,9 +1,10 @@
 'use strict';
 
 (function () {
-  var DEBOUNCE_INTERVAL = 1500;
+  var DEBOUNCE_INTERVAL = 500;
   var lastTimeout;
   window.debounce = function (fun) {
+    debugger;
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
