@@ -95,7 +95,7 @@
       return (element.offer.guests.toString()) === window.Filter.GUESTS.value || (window.Filter.GUESTS.value === 'any');
     };
 
-    //  Сортировка по "плюшкам"
+    //  Сортировка по features
     var sortFeatures = function (element) {
       var checkedElements = window.Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
       for (var i = 0; i < checkedElements.length; i++) {
