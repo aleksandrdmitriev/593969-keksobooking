@@ -93,6 +93,7 @@
   // Очистка
   window.onClearButtonClick = function () {
     var adForm = document.querySelector('.ad-form');
+    window.resetInvalidBorder(window.getInvalidFields());
     adForm.reset();
     appDeactivate();
     document.querySelector('.map').classList.add('map--faded');

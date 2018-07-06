@@ -109,7 +109,46 @@
     window.onClearButtonClick();
   };
 
+  // Находим невалидные поля
+  window.getInvalidFields = function () {
+    var allFields = adForm.querySelectorAll('input:not(.visually-hidden):not([type="checkbox"])');
+    var invalidFields = [];
+
+    for (var i = 0; i < allFields.length; i++) {
+      if (allFields[i].checkValidity() === false) {
+        var field = allFields[i];
+        invalidFields.push(field);
+      }
+    }
+    return invalidFields;
+  };
+
+  // Отмечаем невалидные поля
+  var onSubmitClick = function () {
+    var invalidInputs = window.getInvalidFields();
+    if (invalidInputs) {
+      for (var i = 0; i < invalidInputs.length; i++) {
+        var invalidInput = invalidInputs[i];
+        invalidInput.classList.add('error');
+      }
+    }
+  };
+
+  // Сброс рамок невалидных полей
+  window.resetInvalidBorder = function (invalidInputs) {
+    console.log(invalidInputs);
+    if (invalidInputs) {
+      for (var i = 0; i < invalidInputs.length; i++) {
+        var invalidInput = invalidInputs[i];
+        invalidInput.classList.remove('error');
+      }
+    }
+  };
+
   // Отправка формы
+  var sendFormButton = document.querySelector('.ad-form__submit');
+  sendFormButton.addEventListener('click', onSubmitClick);
+
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.save(new FormData(adForm), onSuccessForm, window.onError);
