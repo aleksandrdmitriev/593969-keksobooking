@@ -138,7 +138,6 @@
 
   // Сброс рамок невалидных полей
   window.resetInvalidBorder = function (invalidInputs) {
-    console.log(invalidInputs);
     if (invalidInputs) {
       for (var i = 0; i < invalidInputs.length; i++) {
         var invalidInput = invalidInputs[i];

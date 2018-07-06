@@ -26,9 +26,9 @@
   window.popupAdvert = document.querySelector('.popup');
 
   // Закрытие объявления
-  window.onCloseButtonClick = function () {
+  window.onCloseButtonClick = function (evt) {
     window.popupAdvert.parentNode.removeChild(window.popupAdvert);
-    event.stopPropagation();
+    evt.stopPropagation();
   };
 
   // Создание объявления
