@@ -83,5 +83,6 @@
     var buttonClose = window.popupAdvert.querySelector('.popup__close');
 
     buttonClose.addEventListener('click', window.onCloseButtonClick, false);
+    document.addEventListener('keydown', window.onCloseButtonClick);
   };
 })();
