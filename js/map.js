@@ -75,7 +75,11 @@
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
         var index = target.getAttribute('data-index');
-        window.createAdvert(window.realData[index]);
+        if (window.updatedData !== undefined) {
+          window.createAdvert(window.updatedData[index]);
+        } else {
+          window.createAdvert(window.realData[index]);
+        }
 
         return;
       }
@@ -187,8 +191,7 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-//    window.realDataCopy = window.realData.slice();
-debugger;
+    // window.realDataCopy = window.realData.slice();
     window.createPins(window.realData);
 
     // Вешаем обработчики фильтров

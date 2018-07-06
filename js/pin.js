@@ -15,7 +15,6 @@
   // Создание пинов объявлений
 
   window.createPins = function (dataArray) {
-    console.log(dataArray);
     var pinListElement = document.querySelector('.map__pins');
     var pinTemplate = document.querySelector('template')
       .content
@@ -97,12 +96,10 @@
     // //  дописать фильтр по фичам
     // };
     window.realDataCopy = window.realData.slice();
-    var updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests); // .filter(sortFeature
-    console.log(updatedData);
-    window.createPins(updatedData);
+    window.updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests); // .filter(sortFeature
+    window.createPins(window.updatedData);
 
   };
-
 
 })();
 

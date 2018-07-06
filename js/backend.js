@@ -10,7 +10,6 @@
     xhr.timeout = 3000;
 
     xhr.addEventListener('load', function () {
-      debugger;
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
