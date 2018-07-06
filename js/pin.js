@@ -4,7 +4,7 @@
 
   var PIN_WIDTH = 50; // ширина пина пина
   var PIN_HEIGHT = 70; // высота пина
-  var Filter = {
+  window.Filter = {
     TYPE: document.querySelector('#housing-type'),
     PRICE: document.querySelector('#housing-price'),
     ROOMS: document.querySelector('#housing-rooms'),
@@ -38,8 +38,8 @@
 
   //  Фильтрация
 
-  window.showFiltered = function (dataArray) {
-    var updatedData = dataArray;
+  window.showFiltered = function () {
+
 
     //  функция удаления пинов с карты
     var clearPins = function () {
@@ -54,15 +54,19 @@
 
     clearPins();
 
+    if (window.popupAdvert) {
+      window.onCloseButtonClick();
+    }
+
     // Сортировка по типу
     var sortType = function (element) {
-      return (element.offer.type === Filter.TYPE.value || Filter.TYPE.value === 'any');
+      return (element.offer.type === window.Filter.TYPE.value || window.Filter.TYPE.value === 'any');
     };
 
     // Сортировка по цене
     var sortPrice = function (element) {
 
-      switch (Filter.PRICE.value) {
+      switch (window.Filter.PRICE.value) {
 
         case 'low':
           return element.offer.price < 10000;
@@ -80,36 +84,27 @@
 
     // Сортировка по комнатам
     var sortRooms = function (element) {
-      return (element.offer.rooms.toString()) === Filter.ROOMS.value || (Filter.ROOMS.value === 'any');
+      return (element.offer.rooms.toString()) === window.Filter.ROOMS.value || (window.Filter.ROOMS.value === 'any');
     };
 
     // Сортировка по гостям
     var sortGuests = function (element) {
-      return (element.offer.guests.toString()) === Filter.GUESTS.value || (Filter.GUESTS.value === 'any');
+      return (element.offer.guests.toString()) === window.Filter.GUESTS.value || (window.Filter.GUESTS.value === 'any');
     };
 
-    //  Сортировка по "плюшкам"
-    var sortFeatures = function (element) {
-      var checkedElements = Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
+    // //  Сортировка по "плюшкам"
+    // var sortFeatures = function (element) {
+    //   var checkedElements = window.Filter.FEATURES.querySelectorAll('input[type=checkbox]:checked');
 
-    //  дописать фильтр по фичам
-    };
+    // //  дописать фильтр по фичам
+    // };
 
-    updatedData = Array.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests).filter(sortFeatures);
+    var updatedData = window.realDataCopy.filter(sortType).filter(sortPrice).filter(sortRooms).filter(sortGuests); // .filter(sortFeatures)
 
     window.createPins(updatedData);
 
   };
 
-  // Вешаем обработчики фильтров
-
-  Filter.TYPE.addEventListener('change', window.showFiltered(updatedData));
-  Filter.PRICE.addEventListener('change', window.showFiltered(updatedData));
-  Filter.ROOMS.addEventListener('change', window.showFiltered(updatedData));
-  Filter.ROOMS.addEventListener('change', window.showFiltered(updatedData));
-  Filter.GUESTS.addEventListener('change', window.showFiltered(updatedData));
-  Filter.ROOMS.addEventListener('change', window.showFiltered(updatedData));
-  Filter.FEATURES.addEventListener('change', window.showFiltered(updatedData));
 
 })();
 

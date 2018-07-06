@@ -186,7 +186,19 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.showFiltered(window.realData);
+    window.realDataCopy = window.realData.slice();
+debugger;
+    window.createPins(window.realData);
+
+    // Вешаем обработчики фильтров
+
+    window.Filter.TYPE.addEventListener('change', window.showFiltered);
+    window.Filter.PRICE.addEventListener('change', window.showFiltered);
+    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
+    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
+    window.Filter.GUESTS.addEventListener('change', window.showFiltered);
+    window.Filter.ROOMS.addEventListener('change', window.showFiltered);
+    window.Filter.FEATURES.addEventListener('change', window.showFiltered);
   };
 
   // Сообщение об ошибке
