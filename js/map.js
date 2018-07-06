@@ -209,14 +209,17 @@
 
   window.onError = function (errorMessage) {
     var errorMessageElement = document.createElement('div');
-    errorMessageElement.style = 'z-index: 100; margin: 0 auto; text-align: center; top: 200px; left: 50%; border: 2px solid rgba(255, 50, 0, 0.7);';
+    errorMessageElement.style = 'z-index: 3; margin: 0 auto; text-align: center; background-color: rgba(255, 50, 0, 0.7); top: 200px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 50, 0, 0.7); border-radius: 20px';
     errorMessageElement.style.position = 'fixed';
-    errorMessageElement.style.padding = '50px 30px';
+    errorMessageElement.style.padding = '50px 50px';
     errorMessageElement.style.fontfamily = 'Arial';
-    errorMessageElement.style.color = 'rgba(255, 50, 0, 0.7)';
-    errorMessageElement.style.fontSize = '24px';
+    errorMessageElement.style.color = 'white';
+    errorMessageElement.style.fontSize = '60px';
     errorMessageElement.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorMessageElement);
+    setTimeout(function () {
+      errorMessageElement.parentNode.removeChild(errorMessageElement);
+    }, 5000);
   };
 
 })();

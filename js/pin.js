@@ -40,8 +40,9 @@
   //  Фильтрация
 
   window.showFiltered = function () {
+    debugger;
 
-    if (window.popupAdvert) {
+    if (window.popupAdvert !== null) {
       window.onCloseButtonClick();
     }
 
