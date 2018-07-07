@@ -77,7 +77,7 @@
         if (window.updatedData !== undefined) {
           window.createAdvert(window.updatedData[index]);
         } else {
-          window.createAdvert(window.realData[index]);
+          window.createAdvert(window.splicedData[index]);
         }
 
         return;
@@ -196,8 +196,8 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    var splicedData = window.realData.splice(0, 5);
-    window.createPins(splicedData);
+    window.splicedData = window.realData.splice(0, 5);
+    window.createPins(window.splicedData);
 
     // Вешаем обработчики фильтров
 
