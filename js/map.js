@@ -149,8 +149,8 @@
       var limits = {
         top: TOP_LIMIT - window.MAIN_PIN_HEIGHT,
         bottom: BOTTOM_LIMIT - window.MAIN_PIN_HEIGHT,
-        left: mapPinParent.offsetLeft,
-        right: mapPinParent.offsetWidth - window.MAIN_PIN_WIDTH
+        left: mapPinParent.offsetLeft - window.MAIN_PIN_WIDTH / 2,
+        right: mapPinParent.offsetWidth - window.MAIN_PIN_WIDTH / 2
       };
 
       var calculateNewLocation = function () {
