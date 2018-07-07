@@ -50,8 +50,8 @@
     var customMessage = '';
     switch (guestSelected) {
       case (1): {
-        if ((roomsSelected < 1) || (roomsSelected === 100)) {
-          customMessage = 'Для указанного количества гостей не подходит вариант 100 комнат';
+        if ((roomsSelected !== 1) || (roomsSelected === 100)) {
+          customMessage = 'Для указанного количества гостей подходит вариант: 1 комната';
         }
         break;
       }
