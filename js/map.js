@@ -4,7 +4,6 @@ window.map = {};
 
 (function () {
 
-  var FILTER_ARRAY = ['#housing-type', '#housing-price', '#housing-rooms', '#housing-guests', '#housing-features'];
   var MAIN_PIN_X_INIT = 570;
   var MAIN_PIN_Y_INIT = 375;
   window.map.MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
@@ -14,6 +13,7 @@ window.map = {};
   window.map.realData = [];
   var ERROR_BOX_TIMEOUT = 5000;
   window.map.NUMBER_OF_SPLICED_ELEMENTS = 5;
+  var FILTER_ARRAY = ['#housing-type', '#housing-price', '#housing-rooms', '#housing-guests', '#housing-features'];
 
   // Запуск приложения
   var appActivate = function () {
