@@ -4,6 +4,11 @@
 
   var PIN_WIDTH = 50; // ширина пина пина
   var PIN_HEIGHT = 70; // высота пина
+  var housingPrice = {
+    ten: 10000,
+    fifty: 5000
+  };
+
   window.Filter = {
     TYPE: document.querySelector('#housing-type'),
     PRICE: document.querySelector('#housing-price'),
@@ -60,7 +65,6 @@
 
     clearPins();
 
-
     // Фильтр по типу
     var filterType = function (element) {
       return (element.offer.type === window.Filter.TYPE.value || window.Filter.TYPE.value === 'any');
@@ -72,13 +76,13 @@
       switch (window.Filter.PRICE.value) {
 
         case 'low':
-          return element.offer.price < 10000;
+          return element.offer.price < housingPrice.ten;
 
         case 'middle':
-          return element.offer.price > 10000 && element.offer.price < 50000;
+          return element.offer.price > housingPrice.ten && element.offer.price < housingPrice.fifty;
 
         case 'high':
-          return element.offer.price > 50000;
+          return element.offer.price > housingPrice.fifty;
 
         default:
           return true;
@@ -113,7 +117,7 @@
     .filter(filterPrice)
     .filter(filterRooms)
     .filter(filterGuests)
-    .filter(filterFeatures).splice(0, 5);
+      .filter(filterFeatures).splice(0, window.map.NUMBER_OF_SPLICED_ELEMENTS);
     window.createPins(window.updatedData);
 
   };

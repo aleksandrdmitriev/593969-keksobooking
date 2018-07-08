@@ -11,6 +11,13 @@
     palace: 10000,
   };
 
+  var numberOfRooms = {
+    one: 1,
+    two: 2,
+    three: 3,
+    any: 100
+  };
+
   var adForm = document.querySelector('.ad-form'); // Находит блок формы объявления
   var successMessage = document.querySelector('.success'); // Находит блок сообщения об успешной отправке объявления
   var typeInputElement = adForm.querySelector('#type');
@@ -50,25 +57,25 @@
     var customMessage = '';
     switch (guestSelected) {
       case (1): {
-        if ((roomsSelected !== 1) || (roomsSelected === 100)) {
+        if ((roomsSelected !== numberOfRooms.one) || (roomsSelected === numberOfRooms.any)) {
           customMessage = 'Для указанного количества гостей подходит вариант: 1 комната';
         }
         break;
       }
       case (2): {
-        if ((roomsSelected < 2) || (roomsSelected === 100)) {
+        if ((roomsSelected < numberOfRooms.two) || (roomsSelected === numberOfRooms.any)) {
           customMessage = 'Для указанного количества гостей подходят варианты: 2 комнаты, 3 комнаты';
         }
         break;
       }
       case (3): {
-        if ((roomsSelected < 3) || (roomsSelected === 100)) {
+        if ((roomsSelected < numberOfRooms.three) || (roomsSelected === numberOfRooms.any)) {
           customMessage = 'Для указанного количества гостей подходит вариант: 3 комнаты';
         }
         break;
       }
       case (0): {
-        if (roomsSelected !== 100) {
+        if (roomsSelected !== numberOfRooms.any) {
           customMessage = 'Для указанного количества гостей подходит вариант: 100 комнат';
         }
         break;

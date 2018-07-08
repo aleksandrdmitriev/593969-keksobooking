@@ -1,5 +1,7 @@
 'use strict';
 
+window.map = {};
+
 (function () {
 
   var FILTER_ARRAY = ['#housing-type', '#housing-price', '#housing-rooms', '#housing-guests', '#housing-features'];
@@ -10,6 +12,8 @@
   var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
   var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
   window.realData = [];
+  var ERROR_BOX_TIMEOUT = 5000;
+  window.map.NUMBER_OF_SPLICED_ELEMENTS = 5;
 
   // Запуск приложения
   var appActivate = function () {
@@ -196,7 +200,7 @@
 
   var onSuccess = function (realDataArray) {
     window.realData = realDataArray;
-    window.splicedData = window.realData.splice(0, 5);
+    window.splicedData = window.realData.splice(0, window.map.NUMBER_OF_SPLICED_ELEMENTS);
     window.createPins(window.splicedData);
 
     // Вешаем обработчики фильтров
@@ -224,7 +228,7 @@
     document.body.insertAdjacentElement('afterbegin', errorMessageElement);
     setTimeout(function () {
       errorMessageElement.parentNode.removeChild(errorMessageElement);
-    }, 5000);
+    }, ERROR_BOX_TIMEOUT);
   };
 
 })();
