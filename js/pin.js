@@ -6,10 +6,8 @@ window.pin = {};
 
   var PIN_WIDTH = 50; // ширина пина пина
   var PIN_HEIGHT = 70; // высота пина
-  var housingPrice = {
-    ten: 10000,
-    fifty: 50000
-  };
+  var LOW_PRICE = 10000;
+  var HIGH_PRICE = 50000;
 
   window.pin.Filter = {
     TYPE: document.querySelector('#housing-type'),
@@ -78,13 +76,13 @@ window.pin = {};
       switch (window.pin.Filter.PRICE.value) {
 
         case 'low':
-          return element.offer.price < housingPrice.ten;
+          return element.offer.price < LOW_PRICE;
 
         case 'middle':
-          return element.offer.price > housingPrice.ten && element.offer.price < housingPrice.fifty;
+          return element.offer.price > LOW_PRICE && element.offer.price < HIGH_PRICE;
 
         case 'high':
-          return element.offer.price > housingPrice.fifty;
+          return element.offer.price > HIGH_PRICE;
 
         default:
           return true;
