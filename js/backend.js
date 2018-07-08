@@ -1,11 +1,13 @@
 'use strict';
 
+window.backend = {};
+
 (function () {
 
   var HTTP_STATUS_OK = 200;
 
   // Загрузка данных
-  window.load = function (onSuccess, onError) {
+  window.backend.load = function (onSuccess, onError) {
     var URL = 'https://js.dump.academy/keksobooking/data';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -35,8 +37,8 @@
 
   //  Отправка данных
 
-  window.save = function (data, onSuccess, onError) {
-    var URL = 'https://js.dump.academy/keksobookin';
+  window.backend.save = function (data, onSuccess, onError) {
+    var URL = 'https://js.dump.academy/keksobooking';
     var xhr = new XMLHttpRequest();
     xhr.timeout = 10000;
 

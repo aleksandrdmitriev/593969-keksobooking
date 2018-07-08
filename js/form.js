@@ -1,5 +1,7 @@
 'use strict';
 
+window.form = {};
+
 (function () {
 
   var ESC_KEYCODE = 27;
@@ -115,11 +117,11 @@
     openPopup();
     successMessage.addEventListener('keydown', onPopupEscPress);
     successMessage.addEventListener('click', closePopup);
-    window.onClearButtonClick();
+    window.map.onClearButtonClick();
   };
 
   // Находим невалидные поля
-  window.getInvalidFields = function () {
+  window.form.getInvalidFields = function () {
     var allFields = adForm.querySelectorAll('input:not(.visually-hidden):not([type="checkbox"])');
     var invalidFields = [];
 
@@ -134,7 +136,7 @@
 
   // Отмечаем невалидные поля
   var onSubmitClick = function () {
-    var invalidInputs = window.getInvalidFields();
+    var invalidInputs = window.form.getInvalidFields();
     if (invalidInputs) {
       for (var i = 0; i < invalidInputs.length; i++) {
         var invalidInput = invalidInputs[i];
@@ -144,7 +146,7 @@
   };
 
   // Сброс рамок невалидных полей
-  window.resetInvalidBorder = function (invalidInputs) {
+  window.form.resetInvalidBorder = function (invalidInputs) {
     if (invalidInputs) {
       for (var i = 0; i < invalidInputs.length; i++) {
         var invalidInput = invalidInputs[i];
@@ -159,7 +161,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.save(new FormData(adForm), onSuccessForm, window.onError);
+    window.backend.save(new FormData(adForm), onSuccessForm, window.map.onError);
   });
 
 })();

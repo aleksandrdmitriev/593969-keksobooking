@@ -1,5 +1,7 @@
 'use strict';
 
+window.card = {};
+
 (function () {
 
   // Перевод типа жилья на русский язык
@@ -23,19 +25,19 @@
     }
   };
 
-  window.popupAdvert = document.querySelector('.popup');
+  window.card.popupAdvert = document.querySelector('.popup');
 
   // Закрытие объявления
-  window.onCloseButtonClick = function () {
-    window.popupAdvert = document.querySelector('.popup');
-    if (window.popupAdvert !== null) {
-      window.popupAdvert.parentNode.removeChild(window.popupAdvert);
+  window.card.onCloseButtonClick = function () {
+    window.card.popupAdvert = document.querySelector('.popup');
+    if (window.card.popupAdvert !== null) {
+      window.card.popupAdvert.parentNode.removeChild(window.card.popupAdvert);
     }
   };
 
   // Создание объявления
-  window.createAdvert = function (dataArrayItem) {
-    window.onCloseButtonClick();
+  window.card.createAdvert = function (dataArrayItem) {
+    window.card.onCloseButtonClick();
     var advertParentElement = document.querySelector('.map');
     var advertNextElement = document.querySelector('.map__filters-container');
     var advertTemplate = document.querySelector('template')
@@ -79,11 +81,11 @@
 
     advertParentElement.insertBefore(advertElement, advertNextElement);
 
-    window.popupAdvert = document.querySelector('.popup');
-    var buttonClose = window.popupAdvert.querySelector('.popup__close');
+    window.card.popupAdvert = document.querySelector('.popup');
+    var buttonClose = window.card.popupAdvert.querySelector('.popup__close');
 
-    buttonClose.addEventListener('click', window.onCloseButtonClick, false);
-    document.addEventListener('keydown', window.onCloseButtonClick);
+    buttonClose.addEventListener('click', window.card.onCloseButtonClick, false);
+    document.addEventListener('keydown', window.card.onCloseButtonClick);
   };
 })();
 

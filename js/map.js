@@ -7,11 +7,11 @@ window.map = {};
   var FILTER_ARRAY = ['#housing-type', '#housing-price', '#housing-rooms', '#housing-guests', '#housing-features'];
   var MAIN_PIN_X_INIT = 570;
   var MAIN_PIN_Y_INIT = 375;
-  window.MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
-  window.MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
+  window.map.MAIN_PIN_WIDTH = 62; // ширина главного пина в неактивном состоянии
+  window.map.MAIN_PIN_HEIGHT = 84; // высота главного пина в неактивном состоянии
   var TOP_LIMIT = 130; // верхняя граница перетаскивания пина
   var BOTTOM_LIMIT = 630; // нижняя граница перетаскивания пина
-  window.realData = [];
+  window.map.realData = [];
   var ERROR_BOX_TIMEOUT = 5000;
   window.map.NUMBER_OF_SPLICED_ELEMENTS = 5;
 
@@ -19,7 +19,7 @@ window.map = {};
   var appActivate = function () {
 
     // Скачивание массива с сервера
-    window.load(onSuccess, window.onError);
+    window.backend.load(onSuccess, window.map.onError);
 
     for (var k = 0; k < FILTER_ARRAY.length; k++) {
       document.querySelector(FILTER_ARRAY[k]).removeAttribute('disabled', 'disabled');
@@ -42,8 +42,8 @@ window.map = {};
     var calculateAdвress = function () {
       mainPin = document.querySelector('.map__pin--main');
       var addressCoords = {
-        x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_WIDTH / 2,
-        y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.MAIN_PIN_HEIGHT
+        x: Number(mainPin.style.left.replace(/[^-0-9]/gi, '')) + window.map.MAIN_PIN_WIDTH / 2,
+        y: Number(mainPin.style.top.replace(/[^-0-9]/gi, '')) + window.map.MAIN_PIN_HEIGHT
       };
 
       return addressCoords;
@@ -78,10 +78,10 @@ window.map = {};
     while (target !== mapElement) {
       if (target.className === 'map__pin') {
         var index = target.getAttribute('data-index');
-        if (window.updatedData !== undefined) {
-          window.createAdvert(window.updatedData[index]);
+        if (window.pin.updatedData !== undefined) {
+          window.card.createAdvert(window.pin.updatedData[index]);
         } else {
-          window.createAdvert(window.splicedData[index]);
+          window.card.createAdvert(window.map.splicedData[index]);
         }
 
         return;
@@ -94,10 +94,10 @@ window.map = {};
   var clearButton = document.querySelector('.ad-form__reset'); //  находит кнопку "Очистить"
 
   // Очистка
-  window.onClearButtonClick = function () {
+  window.map.onClearButtonClick = function () {
     var adForm = document.querySelector('.ad-form');
 
-    window.resetInvalidBorder(window.getInvalidFields());
+    window.form.resetInvalidBorder(window.form.getInvalidFields());
 
     adForm.reset();
 
@@ -112,19 +112,19 @@ window.map = {};
       pinElements[i].parentNode.removeChild(pinElements[i]);
     }
 
-    document.removeEventListener('click', window.onClearButtonClick, false);
+    document.removeEventListener('click', window.map.onClearButtonClick, false);
 
     mainPin.style.top = (MAIN_PIN_Y_INIT) + 'px';
     mainPin.style.left = (MAIN_PIN_X_INIT) + 'px';
 
-    document.querySelector('#address').value = MAIN_PIN_X_INIT + window.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.MAIN_PIN_HEIGHT);
-    window.popupAdvert = document.querySelector('.popup');
-    if (window.popupAdvert) {
-      window.onCloseButtonClick();
+    document.querySelector('#address').value = MAIN_PIN_X_INIT + window.map.MAIN_PIN_WIDTH / 2 + ', ' + (MAIN_PIN_Y_INIT + window.map.MAIN_PIN_HEIGHT);
+    window.card.popupAdvert = document.querySelector('.popup');
+    if (window.card.popupAdvert) {
+      window.card.onCloseButtonClick();
     }
 
   };
-  clearButton.addEventListener('click', window.onClearButtonClick, false);
+  clearButton.addEventListener('click', window.map.onClearButtonClick, false);
 
   mainPin = document.querySelector('.map__pin--main'); // нашли элемент который будем перетаскивать
 
@@ -151,10 +151,10 @@ window.map = {};
 
       //  ограничения, за которые нельзя вытащить главный пин
       var limits = {
-        top: TOP_LIMIT - window.MAIN_PIN_HEIGHT,
-        bottom: BOTTOM_LIMIT - window.MAIN_PIN_HEIGHT,
-        left: mapPinParent.offsetLeft - window.MAIN_PIN_WIDTH / 2,
-        right: mapPinParent.offsetWidth - window.MAIN_PIN_WIDTH / 2
+        top: TOP_LIMIT - window.map.MAIN_PIN_HEIGHT,
+        bottom: BOTTOM_LIMIT - window.map.MAIN_PIN_HEIGHT,
+        left: mapPinParent.offsetLeft - window.map.MAIN_PIN_WIDTH / 2,
+        right: mapPinParent.offsetWidth - window.map.MAIN_PIN_WIDTH / 2
       };
 
       var calculateNewLocation = function () {
@@ -199,24 +199,24 @@ window.map = {};
   //  Получение массива реальных данных
 
   var onSuccess = function (realDataArray) {
-    window.realData = realDataArray;
-    window.splicedData = window.realData.splice(0, window.map.NUMBER_OF_SPLICED_ELEMENTS);
-    window.createPins(window.splicedData);
+    window.map.realData = realDataArray;
+    window.map.splicedData = window.map.realData.splice(0, window.map.NUMBER_OF_SPLICED_ELEMENTS);
+    window.pin.createPins(window.map.splicedData);
 
     // Вешаем обработчики фильтров
 
-    window.showFiltered = window.debounce(window.showFiltered);
+    window.pin.showFiltered = window.debounce.removeDebounce(window.pin.showFiltered);
 
-    document.querySelector('#housing-type').addEventListener('change', window.showFiltered);
-    document.querySelector('#housing-price').addEventListener('change', window.showFiltered);
-    document.querySelector('#housing-rooms').addEventListener('change', window.showFiltered);
-    document.querySelector('#housing-guests').addEventListener('change', window.showFiltered);
-    document.querySelector('#housing-features').addEventListener('change', window.showFiltered);
+    document.querySelector('#housing-type').addEventListener('change', window.pin.showFiltered);
+    document.querySelector('#housing-price').addEventListener('change', window.pin.showFiltered);
+    document.querySelector('#housing-rooms').addEventListener('change', window.pin.showFiltered);
+    document.querySelector('#housing-guests').addEventListener('change', window.pin.showFiltered);
+    document.querySelector('#housing-features').addEventListener('change', window.pin.showFiltered);
   };
 
   // Сообщение об ошибке
 
-  window.onError = function (errorMessage) {
+  window.map.onError = function (errorMessage) {
     var errorMessageElement = document.createElement('div');
     errorMessageElement.style = 'z-index: 3; margin: 0 auto; text-align: center; background-color: rgba(255, 50, 0, 0.7); top: 200px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 50, 0, 0.7); border-radius: 20px';
     errorMessageElement.style.position = 'fixed';
