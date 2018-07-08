@@ -8,7 +8,7 @@ window.pin = {};
   var PIN_HEIGHT = 70; // высота пина
   var housingPrice = {
     ten: 10000,
-    fifty: 5000
+    fifty: 50000
   };
 
   window.pin.Filter = {
