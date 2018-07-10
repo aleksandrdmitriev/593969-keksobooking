@@ -1,8 +1,8 @@
 'use strict';
 
-window.backend = {};
-
 (function () {
+
+  window.backend = {};
 
   var HTTP_STATUS_OK = 200;
 

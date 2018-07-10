@@ -1,8 +1,8 @@
 'use strict';
 
-window.card = {};
-
 (function () {
+
+  window.card = {};
 
   // Перевод типа жилья на русский язык
   var getHousingType = function (arrayItem) {

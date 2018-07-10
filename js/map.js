@@ -1,8 +1,8 @@
 'use strict';
 
-window.map = {};
-
 (function () {
+
+  window.map = {};
 
   var MAIN_PIN_X_INIT = 570;
   var MAIN_PIN_Y_INIT = 375;

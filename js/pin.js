@@ -1,8 +1,8 @@
 'use strict';
 
-window.pin = {};
-
 (function () {
+
+  window.pin = {};
 
   var PIN_WIDTH = 50; // ширина пина пина
   var PIN_HEIGHT = 70; // высота пина
