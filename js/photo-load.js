@@ -8,33 +8,35 @@
   var photoTemplate = document.querySelector('template').content.querySelector('.ad-form__img');
 
   fileChooser.addEventListener('change', function () {
-    for (var i = 0; i < fileChooser.files.length; i++)(function (i) {
-      var photoElement = photoTemplate.cloneNode(true);
+    for (var i = 0; i < fileChooser.files.length; i++) {
+      (function (i) {
+        var photoElement = photoTemplate.cloneNode(true);
 
-      var file = fileChooser.files[i];
-      var fileName = file.name.toLowerCase();
+        var file = fileChooser.files[i];
+        var fileName = file.name.toLowerCase();
 
-      var getMatch = function (it) {
-        return fileName.endsWith(it);
-      };
-
-      var matches = FILE_TYPES.some(getMatch);
-
-      if (matches) {
-
-        var reader = new FileReader();
-
-        var renderImg = function () {
-          photoElement.src = reader.result;
-          photoLayout.appendChild(photoElement);
+        var getMatch = function (it) {
+          return fileName.endsWith(it);
         };
-        reader.addEventListener('load', renderImg);
 
-        reader.readAsDataURL(file);
+        var matches = FILE_TYPES.some(getMatch);
 
-      }
+        if (matches) {
 
-    })(i);
+          var reader = new FileReader();
+
+          var renderImg = function () {
+            photoElement.src = reader.result;
+            photoLayout.appendChild(photoElement);
+          };
+          reader.addEventListener('load', renderImg);
+
+          reader.readAsDataURL(file);
+
+        }
+
+      })(i);
+    }
 
   });
 
