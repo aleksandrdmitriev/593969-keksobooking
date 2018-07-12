@@ -2,9 +2,9 @@
 
 (function () {
 
-  window.form = {};
-
   var ESC_KEYCODE = 27;
+
+  window.form = {};
 
   var priceMin = {
     bungalo: 0,

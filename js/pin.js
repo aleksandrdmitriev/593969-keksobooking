@@ -2,10 +2,10 @@
 
 (function () {
 
-  window.pin = {};
-
   var PIN_WIDTH = 50; // ширина пина пина
   var PIN_HEIGHT = 70; // высота пина
+
+  window.pin = {};
 
   window.pin.Filter = {
     TYPE: document.querySelector('#housing-type'),

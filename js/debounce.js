@@ -2,10 +2,11 @@
 
 (function () {
 
-  window.debounce = {};
-
   var DEBOUNCE_INTERVAL = 500;
   var lastTimeout;
+
+  window.debounce = {};
+
   window.debounce.removeDebounce = function (fun) {
 
     return function () {

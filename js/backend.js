@@ -2,9 +2,9 @@
 
 (function () {
 
-  window.backend = {};
-
   var HTTP_STATUS_OK = 200;
+
+  window.backend = {};
 
   // Загрузка данных
   window.backend.load = function (onSuccess, onError) {
