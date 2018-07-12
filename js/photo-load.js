@@ -9,10 +9,10 @@
 
   fileChooser.addEventListener('change', function () {
     for (var i = 0; i < fileChooser.files.length; i++) {
-      (function (i) {
+      (function (element) {
         var photoElement = photoTemplate.cloneNode(true);
 
-        var file = fileChooser.files[i];
+        var file = fileChooser.files[element];
         var fileName = file.name.toLowerCase();
 
         var getMatch = function (it) {
