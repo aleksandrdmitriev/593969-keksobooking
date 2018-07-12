@@ -1,8 +1,8 @@
 'use strict';
 
-window.form = {};
-
 (function () {
+
+  window.form = {};
 
   var ESC_KEYCODE = 27;
 
