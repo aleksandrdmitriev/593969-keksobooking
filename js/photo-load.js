@@ -8,7 +8,7 @@
   var photoTemplate = document.querySelector('template').content.querySelector('.ad-form__img');
 
   fileChooser.addEventListener('change', function () {
-    for (var i = 0; i < fileChooser.files.length; i++) {
+    for (let i = 0; i < fileChooser.files.length; i++) {
       (function (i) {
         var photoElement = photoTemplate.cloneNode(true);
 
